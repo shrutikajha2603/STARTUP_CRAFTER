@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, View, StyleSheet, Image } from 'react-native'
+import { ScrollView, Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import Entypo from 'react-native-vector-icons/Entypo';
 
 export default function StartupCredentials () {
@@ -12,7 +12,9 @@ return (
         <StartupCredentialsCard text='Hire Talent' outerBoxColor='#FFC9D1' img={require('../assets/talent2.png')} />
         <StartupCredentialsCard text='Blogs' outerBoxColor='#F4E3A5' img={require('../assets/blog.png')} />
     </ScrollView>
-    <SubmitIdeaUpload />
+    <TouchableOpacity activeOpacity={0.7}>
+        <SubmitIdeaUpload />
+    </TouchableOpacity>
     </View>
 )
 }
@@ -55,7 +57,7 @@ return (
 const SubmitIdeaUpload = () => {
 return(
     <View style={{
-        marginHorizontal:'3%',
+        alignSelf: 'center',
         marginVertical:20,
         width:'94%',
         height:220,
@@ -78,11 +80,11 @@ return(
                 }} />
             <Entypo name="upload-to-cloud" size={40} />
             <Text style= {{
-        fontWeight: 'bold',
-        textAlign: 'center',
-        paddingBottom:10,
-        fontSize: 14
-    }}>Submit Idea</Text>
+                fontWeight: 'bold',
+                textAlign: 'center',
+                paddingBottom:10,
+                fontSize: 14
+            }}>Submit Idea</Text>
 
     </View>
 )

@@ -5,8 +5,8 @@ import GlobalStyles from './GlobalStyles'
 export default function Header () {
 return (
 <>
-    <View style={GlobalStyles.statusBarArea}>
-    </View>
+    <SafeAreaView style={GlobalStyles.statusBarArea}>
+    </SafeAreaView>
     <View style={GlobalStyles.bar}>
         <View >
             <Image
