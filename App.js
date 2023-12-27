@@ -2,8 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,  } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import HomeApp from './screens/HomeApp';
+import Home from './screens/Home';
 import Calinder from './screens/Calinder';
+import EducationalContent from './screens/EducationalContent';
+
 
 // const  Tab = createBottomTabNavigator();
 const screensOptions = {
@@ -17,7 +19,7 @@ export default function App() {
         <Tab.Screen name='Calinder'component={Calinder} />
       </Tab.Navigator> */}
     </NavigationContainer>
-<HomeApp />
+<Home />
 </>
   );
 }

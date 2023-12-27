@@ -6,9 +6,10 @@ import Banners from '../components/Banners';
 import StartupCredentials from '../components/StartupCredentials';
 import Events from '../components/Events';
 import BottomAppBar from '../components/BottomAppBar';
+import EducationalContent from './EducationalContent';
 
 
-export default function HomeApp() {
+export default function Home() {
     return (
         <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1, }}>
                 <Header />
@@ -17,6 +18,7 @@ export default function HomeApp() {
                 <StartupCredentials />
                 <Events />
                 {/* <Divider width={1} /> */}
+                <EducationalContent />
             </ScrollView>
                 <BottomAppBar />
         </SafeAreaView>
