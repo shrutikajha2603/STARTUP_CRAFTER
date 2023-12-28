@@ -5,16 +5,18 @@ import { SliderBox } from "react-native-image-slider-box";
 
 export default function Banners () {
  const images = [
-        "https://source.unsplash.com/1024x768/?company",
-        "https://source.unsplash.com/1024x768/?bike",
-        "https://source.unsplash.com/1024x768/?computer",
-        "https://source.unsplash.com/random/?tree", // dummy banners
-        // require("../assets/Banners/1.png"),
+     require("../assets/Banners/1.png"),
+     require("../assets/Banners/2.png"),
+     require("../assets/Banners/3.png"),
+
+        // "https://source.unsplash.com/random/?tree", // dummy banners
 
       ]
 return (
-    <View style={{  borderRadius: 40, marginBottom:30}}>
+    <View style={{  borderRadius: 40, marginBottom:30, }}>
         <SliderBox images={images}
+            autoplay= {true}
+            // autoplayInterval={3000}
             dotColor= "#252525"
             inactiveDotColor= 'grey'
             paginationBoxHorizontalPadding={0}

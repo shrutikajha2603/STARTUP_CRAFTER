@@ -11,7 +11,7 @@ return (
         <View >
             <Image
             source={require('../assets/scLogo.png')}
-            style={{ width: 90, height: 35,  resizeMode:'contain' }}
+            style={{ width: 190, height: 35,  resizeMode:'contain' }}
             /> 
         </View>
         <View style={GlobalStyles.userIcon}>

@@ -7,7 +7,7 @@ export default function Events () {
 return (
     <View style={{paddingBottom:70, paddingHorizontal:12, paddingTop:20}}>
         <Text style={{fontSize:18, fontWeight:'bold', }}> Events </Text>
-        <EventsCard eventName='B-Plan' backgroundColor='#BFF4C8' textColor='#5F9468' description="Have an Idea that can do wonders. Take part in our Business Event and get a change to get your IDEA across Judges, win Prizes and get a chance to be funded" />
+        <EventsCard eventName='B-Plan' backgroundColor='#B5EDBE' textColor='#4F8056' description="Have an Idea that can do wonders. Take part in our Business Event and get a change to get your IDEA across Judges, win Prizes and even get a chance to be funded" />
     </View>
 )
 }
@@ -20,8 +20,6 @@ const EventsCard = ({eventName, description, backgroundColor, textColor}) => {
             height:150,
             backgroundColor: backgroundColor,
             borderRadius: 18,    
-            // flexDirection:'coloumn',
-            // alignItems: 'center',
             justifyContent: 'space-around',
             padding:20
         }}>
@@ -34,17 +32,10 @@ const EventsCard = ({eventName, description, backgroundColor, textColor}) => {
             <Text style={{
                 padding:8,
                 marginRight: 20,
-                fontSize: 11,
+                fontSize: 12,
                 color: textColor,
             }}>{description} </Text>
                 <AntDesign style={{position:'absolute', right:10,bottom:20}} name="rightcircleo" size={30} />
-                {/* <Image source={require('../assets/ideaSubmit.png')} 
-                    style={{
-                        width:'100%',
-                        height: '65%',
-                        resizeMode: 'contain',
-                        padding:15,
-                    }} /> */}
     
         </View>
     )

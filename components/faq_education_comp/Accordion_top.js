@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 40.33,
     fontWeight: 'bold',
-    fontFamily: 'PoppinsBold', // Use the defined font family
+    // fontFamily: 'PoppinsBold', // Use the defined font family
     marginLeft: 38,
     marginTop: 13,
   },

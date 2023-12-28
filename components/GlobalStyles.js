@@ -10,7 +10,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 20,        
+        padding: 13,        
     },
     userIcon: {
         borderColor:'#252525',
