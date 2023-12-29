@@ -21,7 +21,7 @@ return (
             inactiveDotColor= 'grey'
             paginationBoxHorizontalPadding={0}
             activeOpacity={1}
-            ImageComponentStyle={{borderRadius: 15, width: '93%', marginTop: 5}}
+            ImageComponentStyle={{borderRadius: 15, width: '94%', marginTop: 5}}
             // sliderBoxHeight={170}
             imageLoadingColor="black"
             // paddingHorizontal= {'5%'}

@@ -39,12 +39,9 @@ return (
 
     <View style= {{
         width: 120,
-        // Height: 100%,
-        // borderWidth: 1,
         borderRadius: 18,
         borderColor: 'white',
         backgroundColor: outerBoxColor,
-        // margin:10,
         marginHorizontal:12,
     }}>
     <View style= {{

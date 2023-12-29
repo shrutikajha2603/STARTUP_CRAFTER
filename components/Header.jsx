@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, SafeAreaView, Image } from 'react-native'
-import GlobalStyles from './GlobalStyles'
+import { Text, View, SafeAreaView, Image, Platform, StatusBar, StyleSheet } from 'react-native'
+
 
 export default function Header () {
 return (
@@ -26,3 +26,23 @@ return (
 )
 }
 
+const GlobalStyles = StyleSheet.create({
+    statusBarArea: {
+        // backgroundColor: '#C9D9FF',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    },
+    bar: {
+        // backgroundColor: '',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 13,        
+    },
+    userIcon: {
+        borderColor:'#252525',
+        borderWidth:2,
+        borderRadius:30,
+        padding:5,
+    }
+}
+)
