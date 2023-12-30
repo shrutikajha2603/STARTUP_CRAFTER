@@ -1,24 +1,12 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import {
-  ActivityIndicator,
-  Pressable,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Keyboard,
-  ScrollView,
-  Platform,
-} from "react-native";
+import {ActivityIndicator, Pressable, Text, View, KeyboardAvoidingView, Keyboard, ScrollView, Platform} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 
 const { success, fail } = { success: "#22C55E", fail: "#EF4444" };
 const StyledView = styled.View`
-  flex: 1;
-  padding: 25px;
-  padding-top: 30px;
-  background-color: #222831;
+  flex: 1; padding: 25px; padding-top: 30px; background-color: #222831;
 `;
 
 const KeyboardAvoidingContainer = (props) => {
@@ -36,21 +24,13 @@ const KeyboardAvoidingContainer = (props) => {
 };
 
 const SignUpButton = styled.TouchableOpacity`
-  background-color: #00adb5;
-  padding: 15px;
-  align-items: center;
-  border-radius: 5px;
-`;
+  background-color: #00adb5; padding: 15px; align-items: center; border-radius: 5px; `;
 
 const SignUpButtonText = styled.Text`
-  color: white;
-  font-size: 18px;
-`;
+  color: white; font-size: 18px; `;
 
 const StyledPressable = styled.Pressable`
-  padding-vertical: 5px;
-  align-self: center;
-`;
+  padding-vertical: 5px; align-self: center; `;
 
 const PressableText = (props) => {
   return (
@@ -61,45 +41,20 @@ const PressableText = (props) => {
 };
 
 const StyledText = styled.Text`
-  font-size: 13px;
-  color: ${(props) => (props.success ? success : fail)};
-  text-align: center;
-`;
+  font-size: 13px; color: ${(props) => (props.success ? success : fail)}; text-align: center; `;
 
 const MsgBox = (props) => {
   return <StyledText>{props.children}</StyledText>;
 };
 
 const InputField = styled.TextInput`
-  background-color: #222831;
-  padding: 15px;
-  padding-left: 65px;
-  padding-right: 55px;
-  border-radius: 10px;
-  font-size: 16px;
-  height: 55px;
-  margin-top: 13px;
-  margin-bottom: 10px;
-  color: #ffffff;
-  border-color: #393e46;
-  border-width: 2px;
-`;
+  background-color: #222831; padding: 15px; padding-left: 65px; padding-right: 55px; border-radius: 10px; font-size: 16px; height: 55px; margin-top: 13px; margin-bottom: 10px; color: #ffffff; border-color: #393e46; border-width: 2px; `;
 
 const LeftIcon = styled.View`
-  position: absolute;
-  top: 30px;
-  left: 15px;
-  z-index: 1;
-`;
+  position: absolute; top: 30px; left: 15px; z-index: 1; `;
 
 const RightIcon = styled.TouchableOpacity`
-  position: absolute;
-  top: 32px;
-  right: 15px;
-  z-index: 1;
-  border-color: #393e46;
-  padding-right: 10px;
-`;
+  position: absolute; top: 32px; right: 15px; z-index: 1; border-color: #393e46; padding-right: 10px; `;
 
 const StyledTextInput = ({ icon, Label, isPassword, ...props }) => {
   const [inputBackgroundColor, setInputBackgroundColor] = useState("#222831");
@@ -171,29 +126,8 @@ const SignUp = () => {
   return (
     <StyledView>
       <KeyboardAvoidingContainer>
-        <Text
-          style={{
-            marginTop: 51,
-            marginBottom: 20,
-            fontSize: 30,
-            color: "white",
-            fontWeight: "bold",
-            alignSelf: "center",
-          }}
-        >
-          Get Started Free
-        </Text>
-        <Text
-          style={{
-            fontSize: 18,
-            color: "white",
-            alignSelf: "center",
-            marginBottom: 40,
-          }}
-        >
-          Free Forever. No Credit Card Needed
-        </Text>
-
+        <Text style={{ marginTop: 51, marginBottom: 20, fontSize: 30, color: "white", fontWeight: "bold", alignSelf: "center"}}> Get Started Free </Text>
+        <Text style={{fontSize: 18, color: "white", alignSelf: "center", marginBottom: 40}}> Free Forever. No Credit Card Needed </Text>
         <Formik
           initialValues={{
             email: "",
@@ -288,24 +222,11 @@ const SignUp = () => {
                 Sign in to an existing account
               </PressableText>
 
-              <Text
-                style={{
-                  textAlign: "center",
-                  marginTop: 10,
-                  marginBottom: 10,
-                  color: "white",
-                  fontSize: 13,
-                }}
-              >
-                Or Signup with
-              </Text>
+              <Text style={{textAlign: "center", marginTop: 10, marginBottom: 10, color: "white", fontSize: 13}}> Or Signup with </Text>
               <View style={{ flexDirection: "row", justifyContent: "center" }}>
                 <Pressable
                   style={({ pressed }) => [
-                    {
-                      opacity: pressed ? 0.5 : 1,
-                    },
-                  ]}
+                    {opacity: pressed ? 0.5 : 1}]}
                   onPress={() => {
                     // Handle Google signup
                   }}
