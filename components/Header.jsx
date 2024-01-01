@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, SafeAreaView, Image, Platform, StatusBar, StyleSheet } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Header () {
@@ -11,14 +12,19 @@ return (
         <View >
             <Image
             source={require('../assets/scLogo.png')}
-            style={{ width: 190, height: 35,  resizeMode:'contain' }}
+            style={{ width: 180, height: 35,  resizeMode:'contain' }}
             /> 
         </View>
-        <View style={GlobalStyles.userIcon}>
-            <Image
-            source={require('../assets/userIcon.png')}
-            style={{ width: 35, height: 35, borderRadius:30,  resizeMode:'contain' }}
-            /> 
+        <View style={GlobalStyles.notificationPanel}>
+            <View style={GlobalStyles.notificationIcon}>
+            <Ionicons name="notifications" size={23} />
+            </View>
+            <View style={GlobalStyles.userIcon}>
+                <Image
+                source={require('../assets/userIcon.png')}
+                style={{ width: 30, height: 30, borderRadius:30,  resizeMode:'contain' }}
+                /> 
+            </View>
         </View>
     </View>
 
@@ -43,6 +49,13 @@ const GlobalStyles = StyleSheet.create({
         borderWidth:2,
         borderRadius:30,
         padding:5,
+    },
+    notificationPanel:{
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    notificationIcon:{
+        padding:10
     }
 }
 )

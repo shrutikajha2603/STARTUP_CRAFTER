@@ -15,7 +15,7 @@ const Accordion = ({ title, content }) => {
       <View style={[styles.container, { borderRadius: isExpanded ? 0 : 23 }]}>
         <TouchableOpacity onPress={toggleAccordion} style={styles.header}>
           <Text style={styles.title}>{title}</Text>
-          <AntDesign name={isExpanded ? 'caretup' : 'caretdown'} size={20} color={'#03045E'} />
+          <AntDesign name={isExpanded ? 'caretup' : 'caretdown'} size={20} color={'#03045E'} style={{position:'absolute', right:15}} />
         </TouchableOpacity>
 
         {isExpanded && (
@@ -47,9 +47,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 17,
+    paddingRight: 25,
+
   },
   content: {
-    padding: 10,
+    padding: 25,
     backgroundColor: '#00B4D8',
     borderBottomRightRadius:30,
     borderBottomLeftRadius:30,
