@@ -1,11 +1,10 @@
 import React, { Component, useState } from 'react'
 import { RootTagContext, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Header from '../components/Header';
-import StartupCredentials from '../components/StartupCredentials';
 import { Image } from 'react-native-elements';
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
-
+// import { Facebook } from 'react-content-loader/native'
 
 const categories = [
     'All', 'Developer', 'Designer', 'Video Editor', 'Social Media Manager', 'Content Writer', 'Photographer', 'Videographer',
@@ -94,6 +93,8 @@ const fakeUsersData = [
   ];
 
 export default function HireTalent() {
+// const MyCardLoader = () => <Facebook animate={true}/>
+
 const [selectedCategory, setSelectedCategory] = useState('All')
   const handleCategoryCLick = (categoryValue) => {
     setSelectedCategory(categoryValue)
@@ -102,13 +103,14 @@ filteredData = fakeUsersData.filter(user => user.skills.some(skill => skill === 
 matchedData = selectedCategory === 'All' ? fakeUsersData : filteredData
 
 return (
-<>
-    <Header />
+<> 
+    <Header title={'Hire Talent'}/>
     <ScrollView vertical >
         <HireHeader
         selectedCategory={selectedCategory}
         onCategoryClick={handleCategoryCLick}
-  />
+        />
+        {/* <MyCardLoader/> */}
         {matchedData.map((data, key)=>(
         <ProfileCard key={key}
         fullName={data.fullName}

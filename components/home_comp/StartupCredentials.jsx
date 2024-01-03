@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 
 
 export default function StartupCredentials () {
-      // Get the navigation object using the useNavigation hook
   const navigation = useNavigation();
 return (
 <View>
@@ -13,21 +12,21 @@ return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <TouchableOpacity activeOpacity={0.7}
         onPress={() => { navigation.navigate('EducationalContent'); }}>
-            <StartupCredentialsCard text='Educational Content' outerBoxColor='#B5EDBE' img={require('../assets/educational.png')} />
+            <StartupCredentialsCard text='Educational Content' outerBoxColor='#B5EDBE' img={require('../../assets/educational.png')} />
         </TouchableOpacity>
 
         <TouchableOpacity activeOpacity={0.7}
         onPress={() => { navigation.navigate('HireTalent'); }}>
-            <StartupCredentialsCard text='Hire Talent' outerBoxColor='#FFC9D1' img={require('../assets/talent2.png')} />
+            <StartupCredentialsCard text='Hire Talent' outerBoxColor='#FFC9D1' img={require('../../assets/talent2.png')} />
         </TouchableOpacity>
 
         <TouchableOpacity activeOpacity={0.7}
         onPress={() => { navigation.navigate('Blogs'); }}>
-            <StartupCredentialsCard text='Blogs' outerBoxColor='#EDD993' img={require('../assets/blog.png')} />
+            <StartupCredentialsCard text='Blogs' outerBoxColor='#EDD993' img={require('../../assets/blog.png')} />
         </TouchableOpacity>
 
     </ScrollView>
-    <TouchableOpacity activeOpacity={0.7}>
+    <TouchableOpacity activeOpacity={0.7} onPress={() => { navigation.navigate('IdeaSubmission'); }}>
         <SubmitIdeaUpload />
     </TouchableOpacity>
 </View>
@@ -86,7 +85,7 @@ return(
         justifyContent: 'space-evenly'
     }}>
 
-            <Image source={require('../assets/ideaSubmit.png')} 
+            <Image source={require('../../assets/ideaSubmit.png')} 
                 style={{
                     width:'100%',
                     height: '65%',

@@ -1,21 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,  } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import Home from './screens/Home';
-import Calinder from './screens/Calinder';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import RootNavigation from './RootNavigation';
+import BottomAppBar from './components/BottomAppBar';
+import { NavigationContainer } from '@react-navigation/native'
 
-
-// const  Tab = createBottomTabNavigator();
-const screensOptions = {
-  
-}
-export default function App() {
-  return (<>
-<RootNavigation />
-</>
+const App = () => {
+  return (
+    <View style={{ flex: 1 }}>
+      <NavigationContainer>
+        <RootNavigation />
+        </NavigationContainer>
+      {/* <BottomAppBar /> */}
+    </View>
   );
-}
+};
+
+export default App;

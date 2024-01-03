@@ -5,9 +5,9 @@ import { SliderBox } from "react-native-image-slider-box";
 
 export default function Banners () {
  const images = [
-     require("../assets/Banners/1.png"),
-     require("../assets/Banners/2.png"),
-     require("../assets/Banners/3.png"),
+     require("../../assets/Banners/1.png"),
+     require("../../assets/Banners/2.png"),
+     require("../../assets/Banners/3.png"),
 
         // "https://source.unsplash.com/random/?tree", // dummy banners
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function BottomAppBar () {
+    const navigation = useNavigation()
 return (
     <View style={{
         flexDirection: 'row',
@@ -15,22 +16,21 @@ return (
         bottom:0,
         right:0,
         left:0,
-        // borderWidth:1,
-        // margin:15,        
+        flex: 1,
         elevation: 15,
 
         }}>
-        <Icons iconName='home' title='Home'/>
-        <Icons iconName='calendar' title='Calendar'/>
-        <Icons iconName='chatbubbles' title='Discussion'/>
+        <Icons onPress={()=> {navigation.navigate('Home')}} iconName='home' title='Home'/>
+        <Icons onPress={()=> {navigation.navigate('EventCalendar')}} iconName='calendar' title='Calendar'/>
+        <Icons onPress={()=> {navigation.navigate('Discussion')}} iconName='chatbubbles' title='Discussion'/>
 
     </View>
 )
 }
 
-const Icons = ({iconName, title}) => {
+const Icons = ({onPress, iconName, title}) => {
 return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
         <View style={{ alignItems: 'center', paddingVertical:8 }}>
             <Ionicons name={iconName} color='#252525' size={28} /> 
             <Text style={{fontSize: 11}}> {title} </Text>

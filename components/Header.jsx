@@ -3,17 +3,21 @@ import { Text, View, SafeAreaView, Image, Platform, StatusBar, StyleSheet } from
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-export default function Header () {
+export default function Header ({home, title}) {
 return (
 <>
     <SafeAreaView style={GlobalStyles.statusBarArea}>
     </SafeAreaView>
     <View style={GlobalStyles.bar}>
         <View >
+            { home? (
             <Image
             source={require('../assets/scLogo.png')}
             style={{ width: 180, height: 35,  resizeMode:'contain' }}
             /> 
+            ):(
+             <Text style={{fontSize:22, fontWeight: 'bold',}}>{title}</Text>
+            )}
         </View>
         <View style={GlobalStyles.notificationPanel}>
             <View style={GlobalStyles.notificationIcon}>
