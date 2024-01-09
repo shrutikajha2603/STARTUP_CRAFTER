@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { Text, View, SafeAreaView, Image, Platform, StatusBar, StyleSheet } from 'react-native'
+import { Text, View,  Image, Platform, StatusBar, StyleSheet } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 export default function Header ({home, title}) {
 return (
-<>
-    <SafeAreaView style={GlobalStyles.statusBarArea}>
-    </SafeAreaView>
+<SafeAreaView>
     <View style={GlobalStyles.bar}>
         <View >
             { home? (
@@ -32,14 +31,14 @@ return (
         </View>
     </View>
 
-</>
+</SafeAreaView>
 )
 }
 
 const GlobalStyles = StyleSheet.create({
     statusBarArea: {
         // backgroundColor: '#C9D9FF',
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+        // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     },
     bar: {
         // backgroundColor: '',

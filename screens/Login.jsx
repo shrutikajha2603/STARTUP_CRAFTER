@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import { ActivityIndicator, Pressable, Text, View, KeyboardAvoidingView, Keyboard, ScrollView, Platform, TextInput } from "react-native";
+import { ActivityIndicator, Pressable, Text, View, KeyboardAvoidingView, Keyboard, ScrollView, Platform, TextInput, Image } from "react-native";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = {
@@ -105,6 +105,8 @@ const Login = () => {
             style={styles.pressableContainer}
             onPress={Keyboard.dismiss}
           >
+            <Image source={require('../assets/loginimg.png')} style={{width:300, height:100}} />
+            {/* <Image source={{uri: '../assets/loginimg.png'}}style={{width: 40, height: 40}}/> */}
             <Text
               style={{ marginTop: 51, marginBottom: 5, fontSize: 30, color: "white", fontWeight: "bold", alignSelf: "center" }}>
               Welcome Back

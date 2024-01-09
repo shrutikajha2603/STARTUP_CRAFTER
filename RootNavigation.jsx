@@ -8,6 +8,8 @@ import Blogs from './screens/Blogs';
 import IdeaSubmission from './screens/IdeaSubmission';
 import EventCalendar from './screens/EventCalendar';
 import Discussion from './screens/Discussion';
+import DummyLogin2 from './screens/DummyLogin2';
+import DummySignup from './screens/DummySignup';
 
 export default function RootNavigation() {
   const Stack = createStackNavigator();
@@ -16,7 +18,9 @@ export default function RootNavigation() {
   };
   
   return (
-      <Stack.Navigator initialRouteName='Home' screenOptions={screenOptions}>
+      <Stack.Navigator initialRouteName='DummyLogin2' screenOptions={screenOptions}>
+        <Stack.Screen name="DummyLogin2" component={DummyLogin2} />
+        <Stack.Screen name="DummySignup" component={DummySignup} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="EventCalendar" component={EventCalendar} />
         <Stack.Screen name="Discussion" component={Discussion} />

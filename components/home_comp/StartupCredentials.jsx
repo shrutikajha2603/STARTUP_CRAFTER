@@ -16,7 +16,7 @@ return (
         </TouchableOpacity>
 
         <TouchableOpacity activeOpacity={0.7}
-        onPress={() => { navigation.navigate('HireTalent'); }}>
+        onPress={() => { navigation.push('HireTalent'); }}>
             <StartupCredentialsCard text='Hire Talent' outerBoxColor='#FFC9D1' img={require('../../assets/talent2.png')} />
         </TouchableOpacity>
 
@@ -67,7 +67,6 @@ return (
 
 )
 }
-
 const SubmitIdeaUpload = () => {
 return(
     <View style={{
@@ -84,7 +83,6 @@ return(
         alignItems: 'center',
         justifyContent: 'space-evenly'
     }}>
-
             <Image source={require('../../assets/ideaSubmit.png')} 
                 style={{
                     width:'100%',

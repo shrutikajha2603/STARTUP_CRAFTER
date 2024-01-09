@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, SafeAreaView, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Header';
 import BottomAppBar from '../components/BottomAppBar';
 import Banners from '../components/home_comp/Banners';
@@ -8,7 +9,7 @@ import Events from '../components/home_comp/Events';
 
 export default function Home() {
     return (
-        <SafeAreaView style={{ backgroundColor: '#EEEEEE', flex: 1, }}>
+        <View style={{ backgroundColor: '#EEEEEE', flex: 1, }}>
                 <Header home={true}  />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <Banners />
@@ -16,6 +17,6 @@ export default function Home() {
                 <Events />
             </ScrollView>
                 <BottomAppBar />
-        </SafeAreaView>
+        </View>
     );
 }
