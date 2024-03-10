@@ -21,8 +21,10 @@ export default StyleSheet.create({
         eye: {
             margin: 10,
             position:'absolute',
-            right:30,
-            top:14
+            right:16,
+            top:0,
+            padding:14,
+            // backgroundColor:'pink'
         },
         error : {
             textAlign:'center',

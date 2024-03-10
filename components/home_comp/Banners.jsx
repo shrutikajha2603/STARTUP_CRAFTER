@@ -8,9 +8,6 @@ export default function Banners () {
      require("../../assets/Banners/1.png"),
      require("../../assets/Banners/2.png"),
      require("../../assets/Banners/3.png"),
-
-        // "https://source.unsplash.com/random/?tree", // dummy banners
-
       ]
 return (
     <View style={{  borderRadius: 40, marginBottom:30, }}>

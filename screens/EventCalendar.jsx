@@ -115,7 +115,7 @@ return (<>
   style={{}}
 />
     </ScrollView>
-    <BottomAppBar />
+    {/* <BottomAppBar /> */}
 
 </>)
 }

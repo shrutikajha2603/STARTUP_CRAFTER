@@ -16,7 +16,7 @@ export default function Home() {
                 <StartupCredentials />
                 <Events />
             </ScrollView>
-                <BottomAppBar />
+                {/* <BottomAppBar /> */}
         </View>
     );
 }

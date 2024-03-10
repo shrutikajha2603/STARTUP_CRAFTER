@@ -18,6 +18,7 @@ return (
         left:0,
         flex: 1,
         elevation: 15,
+        paddingLeft:15,
 
         }}>
         <Icons onPress={()=> {navigation.navigate('Home')}} iconName='home' title='Home'/>

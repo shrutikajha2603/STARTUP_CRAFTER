@@ -1,249 +1,93 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
-import { ActivityIndicator, Pressable, Text, View, KeyboardAvoidingView, Keyboard, ScrollView, Platform, TextInput, Image } from "react-native";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useState } from 'react'
+import { Text, View, Image, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, Platform } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { TextInput, ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { FIREBASE_AUTH } from '../FirebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import LoginStyle from '../components/authentication/LoginStyle';
+import { useNavigation } from '@react-navigation/native';
 
-const styles = {
-  view: {
-    flex: 1,
-    padding: 25,
-    paddingTop: 30,
-    backgroundColor: '#222831',
-  },
-  keyboardAvoidingContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-  },
-  scrollView: {
-    flex: 1,
-  },
-  pressableContainer: {
-    flex: 1,
-  },
-  loginButton: {
-    backgroundColor: '#00adb5',
-    padding: 15,
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  loginButtonText: {
-    color: 'white',
-    fontSize: 18,
-  },
-  pressable: {
-    paddingVertical: 5,
-    alignSelf: 'center',
-  },
-  pressableText: {
-    color: '#00ADB5',
-  },
-  text: {
-    fontSize: 13,
-    textAlign: 'center',
-  },
-  successText: {
-    color: '#22C55E',
-  },
-  failText: {
-    color: '#EF4444',
-  },
-  inputField: {
-    backgroundColor: '#222831',
-    padding: 15,
-    paddingLeft: 65,
-    paddingRight: 55,
-    borderRadius: 10,
-    fontSize: 16,
-    height: 55,
-    marginTop: 13,
-    marginBottom: 10,
-    color: '#FFFFFF',
-    borderColor: '#393E46',
-    borderWidth: 2,
-  },
-  leftIcon: {
-    position: 'absolute',
-    top: 32,
-    left: 15,
-    zIndex: 1,
-  },
-  rightIcon: {
-    position: 'absolute',
-    top: 32,
-    right: 15,
-    zIndex: 1,
-    borderColor: '#393E46',
-    paddingRight: 10,
-  },
-};
+export default function Login() {
+const auth = FIREBASE_AUTH
+const navigation = useNavigation();
 
-const Login = () => {
-  const [message, setMessage] = useState("");
-  const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+const [email, setEmail] = useState('')
+const [password, setPassword] = useState('')
+const [showError, setShowError] = useState('')
+const [loading, setLoading] = useState(false)
+const [showPassword, setShowPassword] = useState(false)
+const toggleShowPassword = () => {
+    setShowPassword(!showPassword)
+}
 
-  const handleLogin = async (credentials, setSubmitting) => {
+const signIn = async () => {
+    setLoading(true)
     try {
-      setMessage(null);
-      //call backend
-      //move to the next page
-      setSubmitting(false);
-    } catch (error) {
-      setMessage("Login Failed: " + error.message);
-      setSubmitting(false);
+        const response = await signInWithEmailAndPassword(auth, email.trim(), password)
+        // console.log(response)
+        // alert('signIn Suggessful!')
+        navigation.navigate('LoggedinLayout')
+
+    } catch (err) {
+        // console.log(err)
+        setShowError('Login Failed:' + err.code)
+    } finally {
+        setLoading(false)
     }
-  };
-
-  return (
-    <View style={styles.view}>
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoidingContainer}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={60}
-      >
-        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-          <Pressable
-            style={styles.pressableContainer}
-            onPress={Keyboard.dismiss}
-          >
-            <Image source={require('../assets/loginimg.png')} style={{width:300, height:100}} />
-            {/* <Image source={{uri: '../assets/loginimg.png'}}style={{width: 40, height: 40}}/> */}
-            <Text
-              style={{ marginTop: 51, marginBottom: 5, fontSize: 30, color: "white", fontWeight: "bold", alignSelf: "center" }}>
-              Welcome Back
-            </Text>
-            <Text
-              style={{ fontSize: 15, color: "white", alignSelf: "center", marginBottom: 40 }}>
-              We Missed You
-            </Text>
-
-            <Formik
-              initialValues={{ email: "", password: "" }}
-              onSubmit={(values, { setSubmitting }) => {
-                if (values.email == "" || values.password == "") {
-                  setMessage("Please fill in all fields");
-                  setSubmitting(false);
-                } else {
-                  handleLogin(values, setSubmitting);
-                }
-              }}
-            >
-              {({
-                handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
-                  <>
-                    <View>
-                      <View style={styles.leftIcon}>
-                        <MaterialCommunityIcons name="email-variant" size={30} color="#00ADB5" style={{ marginTop: 10 }} />
-                      </View>
-                      <Text style={{ color: 'white' }}>Email Address</Text>
-                      <TextInput
-                        style={{
-                          ...styles.inputField,
-                          backgroundColor: values.inputBackgroundColor,
-                          marginBottom: 20,
-                        }}
-                        placeholderTextColor={'#6B7280'}
-                        onBlur={handleBlur("email")}
-                        onFocus={handleChange("email")}
-                        value={values.email}
-                      />
-                    </View>
-
-                    <View>
-                      <View style={styles.leftIcon}>
-                        <MaterialCommunityIcons name="lock-open" size={30} color="#00ADB5" style={{ marginTop: 10 }} />
-                      </View>
-                      <Text style={{ color: 'white' }}>Password</Text>
-                      <TextInput
-                        style={{
-                          ...styles.inputField,
-                          backgroundColor: values.inputBackgroundColor,
-                          marginBottom: 25,
-                        }}
-                        placeholderTextColor={'#6B7280'}
-                        onBlur={handleBlur("password")}
-                        onFocus={handleChange("password")}
-                        value={values.password}
-                        secureTextEntry={true}
-                      />
-                    </View>
-                    <Text style={{ ...styles.text, marginBottom: 25, ...(isSuccessMessage ? styles.successText : styles.failText) }}>
-                      {message || " "}
-                    </Text>
-
-                    {!isSubmitting && (
-                      <Pressable style={styles.loginButton} onPress={handleSubmit}>
-                        <Text style={styles.loginButtonText}>Login</Text>
-                      </Pressable>
-                    )}
-
-                    {isSubmitting && (
-                      <Pressable style={styles.loginButton} disabled={true}>
-                        <ActivityIndicator size="small" color="black" />
-                      </Pressable>
-                    )}
-
-                    <Text style={{color: '#00ADB5'}} onPress={() => { }}>
-                      New account sign up
-                    </Text>
-                    <Text style={{color: '#00ADB5'}} onPress={() => { }}>Forgot Password</Text>
-                    <Text
-                      style={{
-                        textAlign: "center", marginTop: 10, marginBottom: 10, color: "white", fontSize: 15 }}
-                    >
-                      Or continue with
-                    </Text>
-                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                      <Pressable
-                        style={({ pressed }) => [
-                          {
-                            opacity: pressed ? 0.5 : 1,
-                          },
-                        ]}
-                        onPress={() => {
-                          // Handle Google signup
-                        }}
-                      >
-                        <MaterialCommunityIcons
-                          name="google" size={30} color="#FF3D00"
-                        />
-                      </Pressable>
-                      <Pressable
-                        style={({ pressed }) => [
-                          {
-                            opacity: pressed ? 0.5 : 1,
-                          },
-                        ]}
-                        onPress={() => {
-                          // Handle Apple signup
-                        }}
-                      >
-                        <MaterialCommunityIcons
-                          name="apple" size={30} color="#ffffff" style={{ paddingLeft: 10 }}
-                        />
-                      </Pressable>
-                      <Pressable
-                        style={({ pressed }) => [
-                          {
-                            opacity: pressed ? 0.5 : 1,
-                          },
-                        ]}
-                        onPress={() => {
-                          // Handle Meta signup
-                        }}
-                      >
-                        <MaterialCommunityIcons
-                          name="facebook" size={30} color="#1877F2" style={{ paddingLeft: 10 }}
-                        />
-                      </Pressable>
-                    </View>
-                  </>
-                )}
-            </Formik>
-          </Pressable>
+}
+    return (
+      <SafeAreaView style={LoginStyle.wholeView}>
+            <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            // keyboardVerticalOffset={60}
+             >
+                <ScrollView>
+                <View style={{ justifyContent:'center'}}>
+                    <Image
+                     source={require('../assets/loginimg2.png')}
+                     style={{width:'85%', height:250, alignSelf:'center', resizeMode:'contain'}} />
+                </View>
+                <Text style={LoginStyle.headText}> Welcome Back </Text>
+                <TextInput 
+                style={LoginStyle.input}
+                placeholder="@ Email"
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                />
+                <View>
+                    <TextInput
+                    style={LoginStyle.input}
+                    placeholder="Password"
+                    value={password}
+                    onChangeText={(text) => setPassword(text)}
+                    secureTextEntry={!showPassword}
+                    />
+                    <TouchableOpacity onPress={toggleShowPassword} style={LoginStyle.eye}>
+                        <Icon name={showPassword ? "eye-off" : "eye" } size={22} color="black"  />
+                    </TouchableOpacity>
+                </View>
+                <Text style={LoginStyle.error} > {showError} </Text>
+                {loading ? (
+                <ActivityIndicator size={40} /> 
+                ) : ( <>
+                <TouchableOpacity
+                 activeOpacity={0.7}
+                 style={LoginStyle.button}
+                 onPress={signIn}
+                >
+                    <Text style={LoginStyle.loginText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                 activeOpacity={0.7}
+                 style={LoginStyle.alternate}
+                 onPress={() => { navigation.navigate('Signup'); }}
+                >
+                    <Text style={{alignSelf:'center', marginVertical:10}}>Or Signup</Text>
+                </TouchableOpacity>
+                </> )}
         </ScrollView>
-      </KeyboardAvoidingView>
-    </View>
-  );
-};
-
-export default Login;
+            </KeyboardAvoidingView>
+      </SafeAreaView>
+    )
+  }

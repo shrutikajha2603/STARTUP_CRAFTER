@@ -13,7 +13,7 @@ return (<>
     <Text> textInComponent </Text>
     <Text> textInComponent </Text>
     <Text> textInComponent </Text>
-    <BottomAppBar />
+    {/* <BottomAppBar /> */}
     </View>
 </>)
 }
