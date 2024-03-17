@@ -30,7 +30,7 @@ const signUp = async () => {
         setTimeout(()=> {
             // Alert.dismiss() Need a fix!!
         }, 2000)
-        navigation.navigate('LoggedinLayout')
+        navigation.navigate('TabNavigator')
     } catch (err) {
         setShowError('Signup Failed:' + err.code)
     } finally {

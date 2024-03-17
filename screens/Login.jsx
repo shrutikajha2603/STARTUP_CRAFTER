@@ -27,7 +27,7 @@ const signIn = async () => {
         const response = await signInWithEmailAndPassword(auth, email.trim(), password)
         // console.log(response)
         // alert('signIn Suggessful!')
-        navigation.navigate('LoggedinLayout')
+        navigation.navigate('TabNavigator')
 
     } catch (err) {
         // console.log(err)
