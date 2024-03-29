@@ -34,7 +34,7 @@ export default function AccordionTop() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#00B4D8',
+    backgroundColor: '#4F8056',
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
   },

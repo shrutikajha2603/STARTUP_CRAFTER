@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Accordion = ({ title, content }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -12,10 +12,13 @@ const Accordion = ({ title, content }) => {
 
   return (
       <View style={styles.main}>
-      <View style={[styles.container, { borderRadius: isExpanded ? 0 : 23 }]}>
-        <TouchableOpacity onPress={toggleAccordion} style={styles.header}>
+      <View style={[styles.container,
+        //  { borderRadius: isExpanded ? 0 : 23 }
+        //  {     elevation: isExpanded ? 0 : 5, }
+         ]}>
+        <TouchableOpacity activeOpacity={0.9} onPress={toggleAccordion} style={styles.header}>
           <Text style={styles.title}>{title}</Text>
-          <AntDesign name={isExpanded ? 'caretup' : 'caretdown'} size={20} color={'#03045E'} style={{position:'absolute', right:15}} />
+          <Ionicons name={isExpanded ? 'caret-up-circle-outline' : 'caret-down-circle-outline'} size={28} color={'#4F8056'} style={{position:'absolute', right:15}} />
         </TouchableOpacity>
 
         {isExpanded && (
@@ -30,18 +33,16 @@ const Accordion = ({ title, content }) => {
 
 const styles = StyleSheet.create({
   container: {
-    
     borderColor: '#ccc',
     overflow: 'hidden',
-    
+    borderRadius: 16,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 20,
-    backgroundColor: '#f1f1f1',
     alignItems: 'center',
-    backgroundColor: '#90E0EF',
+    backgroundColor: '#B5EDBE',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 25,
-    backgroundColor: '#00B4D8',
+    backgroundColor: 'transparent',
     borderBottomRightRadius:30,
     borderBottomLeftRadius:30,
 

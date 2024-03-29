@@ -135,12 +135,14 @@ const HireHeader = ({selectedCategory, onCategoryClick }) => {
              >
                 <Text style={{
                     height:'100%',
-                    borderWidth:1,
+                    borderWidth:0.5,
                     paddingHorizontal: 15,
                     paddingVertical: 5,
                     borderRadius:20,
+                    // margin:1,
+
                     marginHorizontal:6,
-                    backgroundColor: category === selectedCategory ? '#C9D9FF':'transparent'
+                    backgroundColor: category === selectedCategory ? '#FFC9D1':'transparent'
                   }}>
                     {category}
                 </Text>
@@ -155,7 +157,7 @@ const ProfileCard = ({fullName, location, photo, skills}) => {
         width:'94%',
         margin:'3%',
         height:180,
-        // borderWidth:1,
+        // borderWidth:0.5,
         borderRadius:15,
         backgroundColor:'white',
         padding:15,
@@ -165,7 +167,7 @@ const ProfileCard = ({fullName, location, photo, skills}) => {
         {/* details */}
         <View style={{flexDirection:'row', alignItems:'center'}}>
             <Image source={{ uri: photo }} 
-            style={{ width: 40, height: 40,  resizeMode:'contain', borderRadius:30, borderWidth:1}} />
+            style={{ width: 40, height: 40,  resizeMode:'contain', borderRadius:30, borderWidth:0.5}} />
             <Text style={{fontWeight:'bold', padding:5, fontSize:15}}>{fullName}</Text>
         </View>
         <View style={{flexDirection:'row',
@@ -175,7 +177,7 @@ const ProfileCard = ({fullName, location, photo, skills}) => {
     }}>
             {/*skills || should be loop */}
             {skills.map((skill,key)=> ( 
-            <Text key={key} style={{paddingHorizontal:6, fontSize:12, borderWidth:1, borderRadius:20, margin:2}} >{skill}</Text>))}
+            <Text key={key} style={{paddingHorizontal:6, fontSize:12, borderWidth:0.5, borderRadius:20, margin:2}} >{skill}</Text>))}
 
         </View>
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
