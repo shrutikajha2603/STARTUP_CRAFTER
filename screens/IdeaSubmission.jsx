@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { RadioButton,  } from 'react-native-paper';
 
 ideaCategories = [
@@ -56,19 +57,13 @@ ideaCategories = [
       Icon: 'texture'
     }
   ]
-  
-// ideaCategories = [
-//     {
-//     Name: ['Fintech', 'E-commerce', 'Healthcare', 'Ed Tech', 'Transportation', 'Clean Tech', 'Travel Tech', 'Property Tech', 'Industrial Tech', 'SaaS', 'Social Impact', 'Other'],
-//     Icon: [ 'account-balance-wallet', 'shopping-bag', 'local-hospital', 'book-education', 'local-shipping', 'energy-savings-leaf', 'flight-takeoff', 'home-work', 'factory', 'cloud-circle', 'favorite', 'texture']
-// }
-// ]
+
 export default function IdeaSubmission () {
     const [selectedCategory, setSelectedCategory] = useState(true)
 return (<>
 {/* 263E65 */}
     <Header title={'Idea Submission '}/>
-    <ScrollView vertical
+    <ScrollView vertical showsHorizontalScrollIndicator={false}
      contentContainerStyle={{
         alignItems:'center',
         flex:1
@@ -104,7 +99,7 @@ return (<>
                          Uploaded </Text>
                 </TouchableOpacity>
         </View>
-                <ScrollView style={{width: '90%', height:'100%', marginTop:20}}>
+                <ScrollView vertical showsHorizontalScrollIndicator={false} style={{width: '90%', height:'100%',}}>
                     {selectedCategory == true ? ( <NewSubmission />  ) : (<Uploaded />)}
                 </ScrollView>
     </ScrollView>
@@ -115,49 +110,88 @@ const NewSubmission = () => {
     const [value, setValue] = useState('first');
 
     return(
-        <View >
-                <Text style={ideaSubmissionStyle.questionText}>What  is your team’s name?</Text>
-                <TextInput 
-                style={ideaSubmissionStyle.input}
-                placeholder="Example: TechNerds"
-                // onChangeText={(text) => setName(text)}
-                // value={name}
-                />
+      <View style={{marginVertical:20}} >
+        <Text style={ideaSubmissionStyle.questionText}>What  is your team’s name?</Text>
+        <TextInput 
+        style={ideaSubmissionStyle.input}
+        placeholder="Example: TechNerds"
+        placeholderTextColor='#b2b4b8'
+        // onChangeText={(text) => setName(text)}
+        // value={name}
+        />
 
-                <Text style={ideaSubmissionStyle.questionText}>Select Category</Text>
-                <RadioButton.Group  onValueChange={newValue => setValue(newValue)} value={value}>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ flexDirection: 'row',  }}>
-                            {ideaCategories.map((item, key) => (
-                            <View key={key}  style={{ alignSelf:'center', alignItems:'center', }}>
-                                <View style= {ideaSubmissionStyle.selectCategoryOption}>                    
-                                <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name={item.Icon} size={26} />                    
+        <Text style={ideaSubmissionStyle.questionText}>Select Category</Text>
+        <RadioButton.Group  onValueChange={newValue => setValue(newValue)} value={value}  >
+            <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ flexDirection: 'row'}}>
+                {ideaCategories.map((item, key) => (
+                    <View key={key} style={{flexDirection:'column', alignItems:'flex-start', marginVertical: 14,}}>                            
+                        <TouchableOpacity  activeOpacity={0.8} onPress={() => setValue(item.Name)}
+                            style={{ alignSelf: 'center', alignItems: 'center' }}>
+                            <View style= {[ideaSubmissionStyle.selectCategoryOption,
+                                value === item.Name && { backgroundColor: '#C9D9FF', elevation:3, }
+                                // { backgroundColor:value===item.Name ? '#C9D9FF' : 'white'}                                    
+                            ]}>                    
+                                <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name={item.Icon} color='#263E65' size={26} />                    
+                                                  
                                 <Text style= {ideaSubmissionStyle.selectCategoryText}>{item.Name}</Text>
-                                </View>
-                                <RadioButton value={item.Name} />
                             </View>
-                            ))
-                            }
-                            {/* <View style={{ alignSelf:'center', alignItems:'center', }}>
-                                <View style= {ideaSubmissionStyle.selectCategoryOption}>                    
-                                <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name='shopping-bag' size={26} />                    
-                                <Text style= {ideaSubmissionStyle.selectCategoryText}>Healthcare</Text>
-                                </View>
-                                <RadioButton value="Healthcare" />
-                            </View>
-                            <View style={{ alignSelf:'center', alignItems:'center', }}>
-                                <View style= {ideaSubmissionStyle.selectCategoryOption}>                    
-                                <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name='local-hospital' size={26} />                    
-                                <Text style= {ideaSubmissionStyle.selectCategoryText}>Industrial Tech</Text>
-                                </View>
-                                <RadioButton value="Industrial Tech" />
-                            </View> */}
+                            <RadioButton value={item.Name} color='#263E65'/>
+                        </TouchableOpacity>                        
 
-                    </ScrollView>
-                </RadioButton.Group>
-            <Text style={ideaSubmissionStyle.questionText}>Select Category</Text>
+                        {(value === 'Other' && item.Name === 'Other') && (
+                            <View>
+                                <TextInput 
+                                    style={ideaSubmissionStyle.input}
+                                    placeholder="Enter category"                                    
+                                    />
+                            </View>                                
+                            )}                        
+                    </View>
+                ))}
 
-                </View>
+            </ScrollView>
+        </RadioButton.Group>
+        <Text style={ideaSubmissionStyle.questionText}>Idea Description</Text>
+          <TextInput style={[ideaSubmissionStyle.input, {textAlignVertical: 'top', borderRadius: 18}]}
+              multiline={true}
+              numberOfLines={4}
+              placeholder="Example: An innovative clean tech startup developing solar-powered, portable water purification systems to provide clean drinking water in remote areas."
+              placeholderTextColor='#b2b4b8'
+              // onChangeText={(text) => this.setState({text})}
+              // value={this.state.text}
+              />
+
+        <Text style={ideaSubmissionStyle.questionText}>Upload PPT/PDF</Text>
+        <TouchableOpacity style= {[ideaSubmissionStyle.selectCategoryOption, ideaSubmissionStyle.uploadSection]} >
+          <MaterialIcons style={{ borderStyle: 'dashed', borderColor:'#263E65', borderWidth:1, padding:5, paddingLeft:7, margin:8, borderRadius:20 }} name='upload-file' color='#263E65' size={30} />
+          <Text style= {{color:'#263E65', fontSize:12,}}>Upload Your File Here</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity>
+          <SubmitButton/>
+        </TouchableOpacity>
+      
+      </View>
     )
+}
+const SubmitButton = () => {
+  return (
+    <View style={{
+      width:'90%',
+      backgroundColor: '#C9D9FF',
+      height:50,
+      borderRadius:28,
+      flexDirection: 'row',
+      justifyContent:'center',
+      alignItems:'center',
+      alignSelf:'center',
+      marginTop:30,
+      elevation:3,
+    }}>
+  <Text style={{fontWeight:'bold', fontSize:18, color:'#263E65',}}>Submit </Text>
+  <MaterialCommunityIcons name='rocket' color='#263E65' size={25} />
+    </View>
+  )
 }
 const Uploaded = () => {
     const [value, setValue] = React.useState('first');
@@ -180,31 +214,28 @@ const ideaSubmissionStyle = StyleSheet.create({
     categoryText:{
         alignSelf:'center',
         justifyContent:'center',
-        // fontWeight:'bold',
-        // color: '#fff',
     },
     questionText: {
         marginTop:10,
+        // marginBottom:6,
         fontSize:18,
         fontWeight:'bold',
     },
-    categoryTouch: {
-        
+    categoryTouch: {        
         width:'48%',
         height:'90%',
         borderRadius:25,
         margin:'1%',
         alignItems:'center',
-        justifyContent:'center',    
-            },
+        justifyContent:'center',  
+    },
     input: {
         backgroundColor:'white',
         // elevation:3,
         borderRadius:30,
         padding: 15,
         marginHorizontal:2,
-        marginVertical:7,
-        // height:90%
+        marginVertical: 14,
     },
     selectCategoryOption:{
         width: 85,
@@ -214,9 +245,18 @@ const ideaSubmissionStyle = StyleSheet.create({
         alignItems:'center',
         backgroundColor: 'white',
         marginHorizontal:6,
-        marginVertical:7,
+        // marginVertical:7,
         padding:4,
         } ,
+    uploadSection: {
+      width: '96%', 
+      height: 120,  
+      borderStyle: 'dashed',
+      borderColor:'#263E65',
+      borderWidth:1.3,
+      marginVertical: 14,
+      // backgroundColor:'#C9D9FF',
+    },
     selectCategoryIcon: {
         margin:10,
         position:'absolute',
