@@ -1,11 +1,14 @@
 import React, { Component, useState } from 'react'
 import { StyleSheet, Text, Touchable, View } from 'react-native'
 import Header from '../components/Header'
-import { ScrollView, TouchableOpacity } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity, Alert } from 'react-native'
+import { FlatList, TextInput } from 'react-native-gesture-handler'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { RadioButton,  } from 'react-native-paper';
+import * as DocumentPicker from 'expo-document-picker';
+// import * as ImagePicker from 'expo-image-picker'
+import { Permissions } from 'react-native';
 
 ideaCategories = [
     {
@@ -67,7 +70,7 @@ return (<>
      contentContainerStyle={{
         alignItems:'center',
         flex:1
-    }}>
+    }}> 
         <View style={{
         width:'70%',
         height:45,
@@ -107,72 +110,111 @@ return (<>
 )
 }
 const NewSubmission = () => {
-    const [value, setValue] = useState('first');
+  
+  const [documentName, setDocumentName] = useState(null)
+  const pickDocument = async () => {  
 
-    return(
-      <View style={{marginVertical:20}} >
-        <Text style={ideaSubmissionStyle.questionText}>What  is your team’s name?</Text>
-        <TextInput 
-        style={ideaSubmissionStyle.input}
-        placeholder="Example: TechNerds"
-        placeholderTextColor='#b2b4b8'
-        // onChangeText={(text) => setName(text)}
-        // value={name}
-        />
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        // type: ['application/vnd.ms-powerpoint','application/vnd.openxmlformats-officedocument.presentationml.presentation'],
+        type: ['application/pdf', 'application/pptx', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ]
+      })
+      setDocumentName(result)
+      console.log(result)
+      console.log(result.assets[0].name)
+      if (!result.canceled){
+        console.log('hi')
 
-        <Text style={ideaSubmissionStyle.questionText}>Select Category</Text>
-        <RadioButton.Group  onValueChange={newValue => setValue(newValue)} value={value}  >
-            <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ flexDirection: 'row'}}>
-                {ideaCategories.map((item, key) => (
-                    <View key={key} style={{flexDirection:'column', alignItems:'flex-start', marginVertical: 14,}}>                            
-                        <TouchableOpacity  activeOpacity={0.8} onPress={() => setValue(item.Name)}
-                            style={{ alignSelf: 'center', alignItems: 'center' }}>
-                            <View style= {[ideaSubmissionStyle.selectCategoryOption,
-                                value === item.Name && { backgroundColor: '#C9D9FF', elevation:3, }
-                                // { backgroundColor:value===item.Name ? '#C9D9FF' : 'white'}                                    
-                            ]}>                    
-                                <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name={item.Icon} color='#263E65' size={26} />                    
-                                                  
-                                <Text style= {ideaSubmissionStyle.selectCategoryText}>{item.Name}</Text>
-                            </View>
-                            <RadioButton value={item.Name} color='#263E65'/>
-                        </TouchableOpacity>                        
+      }
+    } catch (error) {
+      console.log('Error picking document:', error)
+      Alert.alert('An error occurred while picking the document.')
+    }
 
-                        {(value === 'Other' && item.Name === 'Other') && (
-                            <View>
-                                <TextInput 
-                                    style={ideaSubmissionStyle.input}
-                                    placeholder="Enter category"                                    
-                                    />
-                            </View>                                
-                            )}                        
-                    </View>
-                ))}
+    // for Image
 
-            </ScrollView>
-        </RadioButton.Group>
-        <Text style={ideaSubmissionStyle.questionText}>Idea Description</Text>
-          <TextInput style={[ideaSubmissionStyle.input, {textAlignVertical: 'top', borderRadius: 18}]}
-              multiline={true}
-              numberOfLines={4}
-              placeholder="Example: An innovative clean tech startup developing solar-powered, portable water purification systems to provide clean drinking water in remote areas."
-              placeholderTextColor='#b2b4b8'
-              // onChangeText={(text) => this.setState({text})}
-              // value={this.state.text}
-              />
+    // let result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //   allowsEditing:true,
+    //   aspect: [3, 4],
+    //   quality: 1
+    // })
+    // if(!result.canceled){
+    //   console.log("success")
+    //   console.log(result)
+    // }
+  };
 
-        <Text style={ideaSubmissionStyle.questionText}>Upload PPT/PDF</Text>
-        <TouchableOpacity style= {[ideaSubmissionStyle.selectCategoryOption, ideaSubmissionStyle.uploadSection]} >
-          <MaterialIcons style={{ borderStyle: 'dashed', borderColor:'#263E65', borderWidth:1, padding:5, paddingLeft:7, margin:8, borderRadius:20 }} name='upload-file' color='#263E65' size={30} />
-          <Text style= {{color:'#263E65', fontSize:12,}}>Upload Your File Here</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity>
-          <SubmitButton/>
-        </TouchableOpacity>
+  
+  const [value, setValue] = useState('first');
+
+  return(
+    <View style={{marginVertical:20}} >
+      <Text style={ideaSubmissionStyle.questionText}>What  is your team’s name?</Text>
+      <TextInput 
+      style={ideaSubmissionStyle.input}
+      placeholder="Example: TechNerds"
+      placeholderTextColor='#b2b4b8'
+      // onChangeText={(text) => setName(text)}
+      // value={name}
+      />
+
+      <Text style={ideaSubmissionStyle.questionText}>Select Category</Text>
+
+      <RadioButton.Group  onValueChange={newValue => setValue(newValue)} value={value}  >
+          <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ flexDirection: 'row'}}>
+              {ideaCategories.map((item, key) => (
+                  <View key={key} style={{flexDirection:'column', alignItems:'flex-start', marginVertical: 14,}}>                            
+                      <TouchableOpacity  activeOpacity={0.8} onPress={() => setValue(item.Name)}
+                          style={{ alignSelf: 'center', alignItems: 'center' }}>
+                          <View style= {[ideaSubmissionStyle.selectCategoryOption,
+                              value === item.Name && { backgroundColor: '#C9D9FF', elevation:3, }
+                              // { backgroundColor:value===item.Name ? '#C9D9FF' : 'white'}                                    
+                          ]}>                    
+                              <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name={item.Icon} color='#263E65' size={26} />                    
+                                                
+                              <Text style= {ideaSubmissionStyle.selectCategoryText}>{item.Name}</Text>
+                          </View>
+                          <RadioButton value={item.Name} color='#263E65'/>
+                      </TouchableOpacity>                        
+
+                      {(value === 'Other' && item.Name === 'Other') && (
+                          <View>
+                              <TextInput 
+                                  style={ideaSubmissionStyle.input}
+                                  placeholder="Enter category"                                    
+                                  />
+                          </View>                                
+                          )}                        
+                  </View>
+              ))}
+          </ScrollView>
+      </RadioButton.Group>
+
+      <Text style={ideaSubmissionStyle.questionText}>Idea Description</Text>
+        <TextInput style={[ideaSubmissionStyle.input, {textAlignVertical: 'top', borderRadius: 18}]}
+            multiline={true}
+            numberOfLines={4}
+            placeholder="Example: An innovative clean tech startup developing solar-powered, portable water purification systems to provide clean drinking water in remote areas."
+            placeholderTextColor='#b2b4b8'
+            // onChangeText={(text) => this.setState({text})}
+            // value={this.state.text}
+            />
+
+      <Text style={ideaSubmissionStyle.questionText}>Upload PPT/PDF</Text>
+      <TouchableOpacity 
+        onPress={()=>  pickDocument()}
+        style= {[ideaSubmissionStyle.selectCategoryOption, ideaSubmissionStyle.uploadSection]} >
+        <MaterialIcons style={{ borderStyle: 'dashed', borderColor:'#263E65', borderWidth:1, padding:5, paddingLeft:7, margin:8, borderRadius:20 }} name='upload-file' color='#263E65' size={30} />
+        <Text style= {{color:'#263E65', fontSize:12,}}>{documentName ? documentName.assets[0].name : 'Upload the ppt or pdf here'}</Text>
+      </TouchableOpacity>
       
-      </View>
-    )
+      <TouchableOpacity>
+        <SubmitButton/>
+      </TouchableOpacity>
+    
+    </View>
+  )
 }
 const SubmitButton = () => {
   return (
