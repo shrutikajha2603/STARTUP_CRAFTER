@@ -14,6 +14,7 @@ import IdeaSubmission from './screens/IdeaSubmission';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
 import TabNavigator from './TabNavigator';
+// import DrawerNavigator from './DrawerNavigator'; 
 
 const parentStack = createStackNavigator();
 
@@ -35,6 +36,7 @@ const App = () => {
       <NavigationContainer>
       {/* <parentStack.Navigator initialRouteName={currentUser ? 'TabNavigator' : 'Login'} screenOptions={{ headerShown: false }}> */}
         <parentStack.Navigator initialRouteName='TabNavigator' screenOptions={{ headerShown: false }}>
+          {/* <parentStack.Screen name="DrawerNavigator" component={DrawerNavigator} /> */}
           <parentStack.Screen name="TabNavigator" component={TabNavigator} />
           <parentStack.Screen name="EducationalContent" component={EducationalContent} />
           <parentStack.Screen name="HireTalent" component={HireTalent} />

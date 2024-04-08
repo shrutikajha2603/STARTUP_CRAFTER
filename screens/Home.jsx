@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '../components/Header';
-import BottomAppBar from '../components/BottomAppBar';
 import Banners from '../components/home_comp/Banners';
 import StartupCredentials from '../components/home_comp/StartupCredentials';
 import Events from '../components/home_comp/Events';
@@ -16,7 +15,6 @@ export default function Home() {
                 <StartupCredentials />
                 <Events />
             </ScrollView>
-                {/* <BottomAppBar /> */}
         </View>
     );
 }

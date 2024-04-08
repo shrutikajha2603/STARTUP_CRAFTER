@@ -127,6 +127,11 @@ export default function NewSubmission () {
           <MaterialIcons style={{ borderStyle: 'dashed', borderColor:'#263E65', borderWidth:1, padding:5, paddingLeft:7, margin:8, borderRadius:20 }} name='upload-file' color='#263E65' size={30} />
           <Text style= {{color:'#263E65', fontSize:12,}}>{documentData ? documentData.assets[0].name : 'Upload the ppt or pdf here'}</Text>
         </TouchableOpacity>
+        <View style={{justifyContent:'center', flexDirection:'row', }}>
+        <MaterialIcons name='security'  size={14} />
+
+          <Text style= {{ fontSize:10, fontStyle:'italic' }}> Your data is safe with us.</Text>
+        </View>
         
         <TouchableOpacity>
           <SubmitButton onDocumentPicked={setDocumentData} documentFile={documentData} setFileUploaded={setFileUploaded} />

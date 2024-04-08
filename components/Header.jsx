@@ -4,7 +4,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { useNavigation } from '@react-navigation/native';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+// const Drawer = createDrawerNavigator();
 
+// export function DrawerApp() {
+//   return (
+//     <NavigationContainer>
+//       <Drawer.Navigator initialRouteName="Home">
+//         <Drawer.Screen name="Home" component={HomeScreen} />
+//         <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+//       </Drawer.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 
 export default function Header({ home, title }) {
   const navigation = useNavigation();
