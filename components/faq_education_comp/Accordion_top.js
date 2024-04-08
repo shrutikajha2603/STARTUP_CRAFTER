@@ -19,9 +19,9 @@ export default function AccordionTop() {
   return (
     <View style={[styles.container, { height: 0.45 * height }]}>
       <View style={styles.safeArea}>
-        <TouchableOpacity onPress={() => console.log('Go back')}>
+        {/* <TouchableOpacity onPress={() => console.log('Go back')}>
           <FontAwesome name="arrow-left" size={30} color="white" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <Image
         style={styles.image}

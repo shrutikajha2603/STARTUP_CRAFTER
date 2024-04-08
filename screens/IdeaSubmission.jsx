@@ -74,7 +74,7 @@ return (<>
         alignItems:'center',
         flex:1
     }}> 
-        <View style={{
+        {/* <View style={{
         width:'70%',
         height:45,
         borderWidth:0.5,
@@ -103,9 +103,10 @@ return (<>
                     ]}>
                          Uploaded </Text>
                 </TouchableOpacity>
-        </View>
+        </View> */}
                 <ScrollView vertical showsHorizontalScrollIndicator={false} style={{width: '90%', height:'100%',}}>
-                    {selectedCategory == true ? ( <NewSubmission />  ) : (<IdeaUploaded />)}
+                    {/* {selectedCategory == true ? ( <NewSubmission />  ) : (<IdeaUploaded />)} */}
+                    <NewSubmission /> 
                 </ScrollView>
     </ScrollView>
     </>

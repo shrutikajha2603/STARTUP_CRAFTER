@@ -154,14 +154,7 @@ export default function NewSubmission () {
     
         const uploadTask = uploadBytesResumable(storageRef, documentFile.uri,
           //  metadata
-          );
-            
-        // .then(response => response.blob());
-        // Create a reference to the document in Firebase Storage
-        // const storageRef = ref(storage, `IdeaDoc/${documentFile.assets[0].name}`);
-        // // Perform the document upload to Firebase Storage using the Blob object
-        // const uploadTask = uploadBytes(storageRef, fileBlob);
-    
+          );    
         uploadTask.on(
           'state_changed',
           (snapshot) => {
@@ -203,11 +196,11 @@ export default function NewSubmission () {
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>Submit</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={showToast}>
+      {/* <TouchableOpacity onPress={showToast}>
         <View style={{ width: '90%', backgroundColor: 'white', height: 50, borderRadius: 28, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, elevation: 5 }}>
         <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>toast</Text>
       </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       </>
     );
   };
