@@ -1,5 +1,7 @@
 .random {
     background-color: rgb(195, 195, 195)
+    light-blue: '#C9D9FF'
+    deepblue:'#263E65'
     cd STARTUP_CRAFTER
     npx expo start
 }

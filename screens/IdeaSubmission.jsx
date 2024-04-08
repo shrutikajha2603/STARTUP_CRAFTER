@@ -9,8 +9,6 @@ import { FlatList, TextInput } from 'react-native-gesture-handler'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { RadioButton,  } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
-// import * as ImagePicker from 'expo-image-picker'
-// import { Permissions } from 'react-native';
 import { storage } from '../FirebaseConfig'; // Import the initialized Firebase storage instance
 import ideaSubmissionStyle from '../components/idea_submission_comp/ideaSubmissionStyle'
 

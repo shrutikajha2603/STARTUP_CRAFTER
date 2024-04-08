@@ -7,9 +7,9 @@ import * as DocumentPicker from 'expo-document-picker';
 import { ScrollView, TouchableOpacity, Alert } from 'react-native'
 import ideaSubmissionStyle from './ideaSubmissionStyle';
 // import * as ImagePicker from 'expo-image-picker'
-// import { Permissions } from 'react-native';
+import Toast from 'react-native-toast-message'
 import { storage } from '../../FirebaseConfig'; // Import the initialized Firebase storage instance
-import { getStorage, ref, uploadBytesResumable  } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 
 export default function NewSubmission () {
@@ -18,33 +18,57 @@ export default function NewSubmission () {
   const [teamName, setTeamName] = useState(null)
   const [ideaDescription, setIdeaDescription] = useState(null)
   const [categoryChecked, setCategoryChecked] = useState(null)
-  const Printfields = () => {
-    console.log('teamName: ' + teamName)
-    console.log('ideaDescription: ' + ideaDescription)
-    console.log('categoryChecked: ' + categoryChecked)
-    console.log('fileUploaded: ' + fileUploaded)
+  const handleCategoryPress = (category) => {
+    setCategoryChecked(category);
+    if (category !== 'Other') {
+      setOtherCategory('');
+    }
+  };
+  const [otherCategory, setOtherCategory] = useState('')
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      aspect:[3,4],
+      allowsEditing: true,
+      quality: 1
+    })
+    if (!result.canceled && result !== null){
+          setDocumentData(result)
+          console.log(result)
+          console.log(result.assets[0].name)
+    }
   }
-  Printfields()
     const pickDocument = async () => {  
   
       try {
         const result = await DocumentPicker.getDocumentAsync({
           // type: ['application/vnd.ms-powerpoint','application/vnd.openxmlformats-officedocument.presentationml.presentation'],
+          // type: 'image/*', // Specify image MIME types
           type: ['application/pdf', 'application/pptx', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ]
+   
         })
         if (!result.canceled && result !== null){
           setDocumentData(result)
           console.log(result)
-          console.log(result.assets[0].name)
+          // console.log(result.assets[0].name)
         }
       } catch (error) {
         console.log('Error picking document:', error)
         Alert.alert('An error occurred while picking the document.')
       }
+
+    };
+    const allFieldsCheck = () => {
+      if (teamName && categoryChecked && ideaDescription && documentData) {
+        return true;
+      } else {
+        return false;
+      }
     };
     
-    // const [value, setValue] = useState('');
-  // 
+    // console.log(allFieldsCheck());
+
     return(
       <View style={{marginVertical:20}} >
         <Text style={ideaSubmissionStyle.questionText}>What  is your team’s name?</Text>
@@ -57,36 +81,32 @@ export default function NewSubmission () {
         />
   
         <Text style={ideaSubmissionStyle.questionText}>Select Category</Text>  
-        <RadioButton.Group  onValueChange={newValue => setCategoryChecked(newValue)} value={categoryChecked}  >
-            <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ flexDirection: 'row'}}>
-                {ideaCategories.map((item, key) => (
-                    <View key={key} style={{flexDirection:'column', alignItems:'flex-start', marginVertical: 14,}}>                            
-                        <TouchableOpacity  activeOpacity={0.8} 
-                            onPress={() => setCategoryChecked(item.Name)}
-                            style={{ alignSelf: 'center', alignItems: 'center' }}>
-                            <View style= {[ideaSubmissionStyle.selectCategoryOption,
-                                categoryChecked === item.Name && { backgroundColor: '#C9D9FF', elevation:3, }
-                                // { backgroundColor:value===item.Name ? '#C9D9FF' : 'white'}                                    
-                            ]}>                    
-                                <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name={item.Icon} color='#263E65' size={26} />                    
-                                                  
-                                <Text style= {ideaSubmissionStyle.selectCategoryText}>{item.Name}</Text>
-                            </View>
-                            <RadioButton value={item.Name} color='#263E65'  />
-                        </TouchableOpacity>                        
-  
-                        {(categoryChecked === 'Other' && item.Name === 'Other') && (
-                            <View>
-                                <TextInput 
-                                    style={ideaSubmissionStyle.input}
-                                    placeholder="Enter category"                                    
-                                    />
-                            </View>                                
-                            )}                        
-                    </View>
-                ))}
-            </ScrollView>
-        </RadioButton.Group>
+        <RadioButton.Group onValueChange={newValue => setCategoryChecked(newValue)} value={categoryChecked}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={true} style={{ flexDirection: 'row' }}>
+            {ideaCategories.map((item, key) => (
+              <View key={key} style={{ flexDirection: 'column', alignItems: 'flex-start', marginVertical: 14 }}>
+                <TouchableOpacity activeOpacity={0.8} onPressIn={() => handleCategoryPress(item.Name)}
+                style={{ alignSelf: 'center', alignItems: 'center' }}>
+                  <View style={[ideaSubmissionStyle.selectCategoryOption, categoryChecked === item.Name && { backgroundColor: '#C9D9FF', elevation: 3 }]}>
+                    <MaterialIcons style={ideaSubmissionStyle.selectCategoryIcon} name={item.Icon} color='#263E65' size={26} />
+                    <Text style={ideaSubmissionStyle.selectCategoryText}>{item.Name}</Text>
+                  </View>
+                  <RadioButton value={item.Name} color='#263E65' />
+                </TouchableOpacity>
+                {(categoryChecked === 'Other' && item.Name === 'Other') && (
+                  <View>
+                    <TextInput
+                      style={ideaSubmissionStyle.input}
+                      placeholder="Enter category"
+                      onChangeText={text => setOtherCategory(text)}
+                      value={otherCategory}
+                    />
+                  </View>
+                )}
+              </View>
+            ))}
+          </ScrollView>
+    </RadioButton.Group>
   
         <Text style={ideaSubmissionStyle.questionText}>Idea Description</Text>
           <TextInput style={[ideaSubmissionStyle.input, {textAlignVertical: 'top', borderRadius: 18}]}
@@ -96,8 +116,6 @@ export default function NewSubmission () {
               placeholderTextColor='#b2b4b8'
               onChangeText={(text) => setIdeaDescription(text)}
               value={ideaDescription}
-              // onChangeText={(text) => this.setState({text})}
-              // value={this.state.text}
               />
   
         <Text style={ideaSubmissionStyle.questionText}>Upload PPT/PDF</Text>
@@ -121,35 +139,49 @@ export default function NewSubmission () {
     const [progress, setProgress] = useState('')
     const uploadDocument = async () => {
       try {
-        if (!documentFile ) {
+        if (!documentFile) {
           Alert.alert('Please select a document before submitting.');
           return;
-        }  
-        // Create a reference to the document in Firebase Storage
-        const storageRef = ref(storage, 'IdeaDoc/' + new Date().getTime())
+        }    
+        // Convert the file to a Blob object
+        // const response = await fetch(documentFile.uri)
+        // const blob = await response.blob()
         
-        // Perform the document upload to Firebase Storage
-        const uploadTask = uploadBytesResumable(storageRef, documentFile.uri);
-        //or  const uploadTask = uploadBytesResumable(storageRef, documentFile.assets[0].uri);
-        console.log(documentFile.uri)
+        const storageRef = ref(storage, `IdeaDoc/${documentFile.assets[0].name}`);
+        // const metadata = {
+        //   contentType: ['application/pdf', 'application/pptx', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ] // Specify MIME type here
+        // };
     
-        // Listen for state changes, errors, and completion of the upload
-        uploadTask.on('state_changed', (snapshot) => {
+        const uploadTask = uploadBytesResumable(storageRef, documentFile.uri,
+          //  metadata
+          );
+            
+        // .then(response => response.blob());
+        // Create a reference to the document in Firebase Storage
+        // const storageRef = ref(storage, `IdeaDoc/${documentFile.assets[0].name}`);
+        // // Perform the document upload to Firebase Storage using the Blob object
+        // const uploadTask = uploadBytes(storageRef, fileBlob);
+    
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
             const newProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(`Upload is ${newProgress}% done`);
-            setProgress(newProgress)
+            setProgress(newProgress);
           },
           (error) => {
-            // Handle unsuccessful uploads
             console.error('Error uploading document:', error);
             Alert.alert('An error occurred while uploading the document.');
           },
-          () => {
+          async () => {
             // Handle successful uploads on complete
             console.log('Document uploaded successfully');
             Alert.alert('Document uploaded successfully.');
-            setFileUploaded(true)
-            // onDocumentPicked(documentFile.name);
+   
+            setFileUploaded(true);
+    
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            console.log('file present at: ', downloadURL);
+            onDocumentPicked(documentFile.name);
           }
         );
       } catch (error) {
@@ -158,11 +190,24 @@ export default function NewSubmission () {
       }
     };
   
-    return (
+    const showToast = () => {
+      Toast.show({
+        type: 'info',
+        text1: 'Message',
+        text2: 'This is an info message'
+      });
+    }
+    return (<>
       <TouchableOpacity onPress={uploadDocument}>
         <View style={{ width: '90%', backgroundColor: '#263E65', height: 50, borderRadius: 28, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, elevation: 5 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>Submit</Text>
         </View>
       </TouchableOpacity>
+      <TouchableOpacity onPress={showToast}>
+        <View style={{ width: '90%', backgroundColor: 'white', height: 50, borderRadius: 28, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, elevation: 5 }}>
+        <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>toast</Text>
+      </View>
+      </TouchableOpacity>
+      </>
     );
   };
