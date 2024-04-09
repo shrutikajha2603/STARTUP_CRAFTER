@@ -14,7 +14,36 @@ import IdeaSubmission from './screens/IdeaSubmission';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
 import TabNavigator from './TabNavigator';
+import Notification from './screens/Notification';
+import Discussion from './screens/Discussion';
 // import DrawerNavigator from './DrawerNavigator'; 
+// import messaging from '@react-native-firebase/messaging';
+//   import {PermissionsAndroid} from 'react-native';
+//   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+
+//   async function initFirebase() {
+//     await messaging().registerDeviceForRemoteMessages();
+//     // You can handle other Firebase configurations here if needed
+//   }
+  
+//   initFirebase();
+
+//   async function requestUserPermission() {
+//     const authStatus = await messaging().requestPermission();
+//     const enabled =
+//       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+//       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+//     if (enabled) {
+//       console.log('Authorization status:', authStatus);
+//     }
+//   }
+//   requestUserPermission();
+
+//   messaging().onMessage(async remoteMessage => {
+//     console.log('Received a new notification', remoteMessage);
+//     // Handle the notification here, e.g., display a local notification
+//   });
 
 const parentStack = createStackNavigator();
 
@@ -23,6 +52,27 @@ const screenOptions = {
 };
 
 const App = () => {
+
+  // async function requestUserPermission() {
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled =
+  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+  //   if (enabled) {
+  //     console.log('Authorization status:', authStatus);
+  //   }
+  // }
+  // const getToken = async () => {
+  //   const token = await messaging().getToken()
+  //   console.log('Token= ',token)
+  // }
+  
+  // useEffect(() => {
+  //   requestUserPermission()
+  //   getToken()
+  // }, [])
+
   const [currentUser, setCurrentUser] = useState(null)
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
@@ -40,8 +90,10 @@ const App = () => {
           <parentStack.Screen name="TabNavigator" component={TabNavigator} />
           <parentStack.Screen name="EducationalContent" component={EducationalContent} />
           <parentStack.Screen name="HireTalent" component={HireTalent} />
+          <parentStack.Screen name="Discussion" component={Discussion} />
           <parentStack.Screen name="Blogs" component={Blogs} />
           <parentStack.Screen name="IdeaSubmission" component={IdeaSubmission} />
+          <parentStack.Screen name="Notification" component={Notification} />
           <parentStack.Screen name="Signup" component={Signup} />
           <parentStack.Screen name="Login" component={Login} />
         </parentStack.Navigator>

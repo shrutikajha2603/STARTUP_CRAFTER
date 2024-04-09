@@ -16,8 +16,8 @@ return (
         </TouchableOpacity>
 
         <TouchableOpacity activeOpacity={0.7}
-        onPress={() => { navigation.push('HireTalent'); }}>
-            <StartupCredentialsCard text='Hire Talent' outerBoxColor='#FFC9D1' img={require('../../assets/talent2.png')} />
+        onPress={() => { navigation.push('Discussion'); }}>
+            <StartupCredentialsCard text='Discussion' outerBoxColor='#FFC9D1' img={require('../../assets/talent2.png')} />
         </TouchableOpacity>
 
         <TouchableOpacity activeOpacity={0.7}

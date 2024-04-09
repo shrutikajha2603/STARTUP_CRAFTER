@@ -69,7 +69,7 @@ const usersData = [
   {
     id: 8,
     fullName: 'Subhadeep Roy',
-    city: 'Jaipur',
+    city: 'Kolkata',
     skills: ['Developer', 'Front-End Developer',],
     socialMedia: 'https://www.linkedin.com/in/subhadeep3902/',
     photo: 'https://media.licdn.com/dms/image/D4D03AQFalsSBySqQCA/profile-displayphoto-shrink_400_400/0/1680632903861?e=1718236800&v=beta&t=9vfQVmEeC_VRjxkwbqaH7CZXz0McF9D6Z_p0zlXTQks',
@@ -150,7 +150,7 @@ const HireHeader = ({selectedCategory, onCategoryClick }) => {
                     // margin:1,
 
                     marginHorizontal:6,
-                    backgroundColor: category === selectedCategory ? '#FFC9D1':'transparent'
+                    backgroundColor: category === selectedCategory ? '#C9D9FF':'transparent'
                   }}>
                     {category}
                 </Text>

@@ -44,9 +44,12 @@ export default function Header({ home, title }) {
           )}
         </View>
         <View style={GlobalStyles.notificationPanel}>
-          <View style={GlobalStyles.notificationIcon}>
-            <Ionicons name="notifications" size={23} />
-          </View>
+          <TouchableOpacity activeOpacity={0.7}
+          onPress={() => { navigation.navigate('Notification'); }}>
+            <View style={GlobalStyles.notificationIcon}>
+              <Ionicons name="notifications" size={23} />
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity style={GlobalStyles.userIcon} onPress={signOut}>
             <Image
               source={require('../assets/userIcon.png')}

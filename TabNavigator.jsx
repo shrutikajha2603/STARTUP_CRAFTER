@@ -5,6 +5,7 @@ import EventCalendar from './screens/EventCalendar';
 import Discussion from './screens/Discussion'
 import Home from './screens/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import HireTalent from './screens/HireTalent';
 
 
 const Tab = createBottomTabNavigator();
@@ -25,8 +26,9 @@ const myScreenOptions = ({ route }) => ({
       iconName =focused ? 'home' : 'home-outline'
     } else if (route.name === 'Calendar') {
       iconName = focused ? 'calendar' : 'calendar-outline'
-    } else if (route.name === 'Discussion') {
-      iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'
+    } else if (route.name === 'HireTalent') {
+      // iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'
+      iconName = focused ? 'people' : 'people-outline'
     }
     return (
       <View
@@ -66,7 +68,7 @@ return (
   <Tab.Navigator initialRouteName='Home' screenOptions={myScreenOptions}>         
     <Tab.Screen name="Home" component={Home} />
     <Tab.Screen name="Calendar" component={EventCalendar} />
-    <Tab.Screen name="Discussion" component={Discussion} />
+    <Tab.Screen name="HireTalent" component={HireTalent} />
 </Tab.Navigator>
 );
 }

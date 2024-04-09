@@ -7,9 +7,9 @@ export default function Events () {
 return (
     <View style={{paddingBottom:90, paddingHorizontal:12, paddingTop:20}}>
         <Text style={{fontSize:18, fontWeight:'bold', marginBottom:20,}}> Events </Text>
-        <EventsCard eventName='B-Plan' backgroundColor='#B5EDBE' textColor='#4F8056' description="Have an Idea that can do wonders. Take part in our Business Event and get a change to get your IDEA across Judges, win Prizes and even get a chance to be funded"
+        <EventsCard eventName='B-Plan' backgroundColor='#B5EDBE' textColor='#4E8F57' description="Have an Idea that can do wonders. Take part in our Business Event and get a change to get your IDEA across Judges, win Prizes and even get a chance to be funded"
          link='https://unstop.com/competitions/b-plan-envisage24-techno-main-salt-lake-kolkata-west-bengal-946281' />
-        <EventsCard eventName='HackUrWay' backgroundColor='#FFC9D1' textColor='#974A55' description="A platform where students will have to design web/software solutions to the relevant problem statements like healthcare, public services, etc.. through their problem-solving skills."
+        <EventsCard eventName='HackUrWay' backgroundColor='#FFC9D1' textColor='#C25D81' description="A platform where students will have to design web/software solutions to the relevant problem statements like healthcare, public services, etc.. through their problem-solving skills."
          link='https://unstop.com/hackathons/hackurway-envisage-2022-techno-main-salt-lake-kolkata-west-bengal-317036' />
     </View>
 )

@@ -4,5 +4,4 @@
     deepblue:'#263E65'
     cd STARTUP_CRAFTER
     npx expo start
-    https://unstop.com/competitions/b-plan-envisage24-techno-main-salt-lake-kolkata-west-bengal-946281
 }

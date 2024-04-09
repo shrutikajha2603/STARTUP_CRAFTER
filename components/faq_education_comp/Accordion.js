@@ -18,7 +18,7 @@ const Accordion = ({ title, content }) => {
          ]}>
         <TouchableOpacity activeOpacity={0.9} onPress={toggleAccordion} style={styles.header}>
           <Text style={styles.title}>{title}</Text>
-          <Ionicons name={isExpanded ? 'caret-up-circle-outline' : 'caret-down-circle-outline'} size={28} color={'#4F8056'} style={{position:'absolute', right:15}} />
+          <Ionicons name={isExpanded ? 'caret-up-circle-outline' : 'caret-down-circle-outline'} size={28} color={'#4E8F57'} style={{position:'absolute', right:15}} />
         </TouchableOpacity>
 
         {isExpanded && (
