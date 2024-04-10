@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "STARTUP_CRAFTER",
+    "name": "Startup Crafter",
     "slug": "STARTUP_CRAFTER",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.png",
+    "icon": "./assets/logoColouredIcon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splashIcon.png",

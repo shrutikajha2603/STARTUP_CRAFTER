@@ -4,9 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import LoginStyle from '../components/authentication/LoginStyle';
 import { useNavigation } from '@react-navigation/native';
+import { User, onAuthStateChanged } from 'firebase/auth'
 
 export default function Signup() {
 const auth = FIREBASE_AUTH
@@ -21,15 +22,26 @@ const [showPassword, setShowPassword] = useState(false)
 const toggleShowPassword = () => {
     setShowPassword(!showPassword)
 }
+// const [currentUser, setCurrentUser] = useState(null)
+// useEffect(() => {
+//   onAuthStateChanged(FIREBASE_AUTH, (user) => {
+//     setName(user.displayName)
+//     console.log('heyUser',  user)
+//   })
 
+// }, [])
 const signUp = async () => {
     setLoading(true)
     try {
         const response = await createUserWithEmailAndPassword(auth, email.trim(), password)
-        Alert.alert('signUp Successful!')
-        setTimeout(()=> {
-            // Alert.dismiss() Need a fix!!
-        }, 2000)
+        await updateProfile(auth.currentUser, {
+            displayName: name // Set the display name to the provided name
+        });
+
+        // Log the user object after signing up
+        console.log('Signed up user:', response.user.displayName);
+        Alert.alert('Signup Successful!')
+
         navigation.navigate('TabNavigator')
     } catch (err) {
         setShowError('Signup Failed:' + err.code)

@@ -25,5 +25,5 @@ const FIREBASE_AUTH = initializeAuth(app, {
 
 
 export const storage = getStorage(app)
-export const db = getFirestore(app)
+export const FIREBASE_DB = getFirestore(app)
 export { FIREBASE_AUTH };

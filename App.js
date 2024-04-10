@@ -16,7 +16,25 @@ import Signup from './screens/Signup';
 import TabNavigator from './TabNavigator';
 import Notification from './screens/Notification';
 import Discussion from './screens/Discussion';
-// import DrawerNavigator from './DrawerNavigator'; 
+import MyProfile from './screens/MyProfile';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+
+// const Drawer = createDrawerNavigator();
+
+// const DrawerNavigator = () => {
+//   return (
+//     <Drawer.Navigator initialRouteName="TabNavigator">
+//       <Drawer.Screen name="TabNavigator" component={TabNavigator} />
+//       <Drawer.Screen name="EducationalContent" component={EducationalContent} />
+//       <Drawer.Screen name="HireTalent" component={HireTalent} />
+//       <Drawer.Screen name="Blogs" component={Blogs} />
+//       <Drawer.Screen name="IdeaSubmission" component={IdeaSubmission} />
+//       <Drawer.Screen name="Notification" component={Notification} />
+//       <Drawer.Screen name="Discussion" component={Discussion} />
+//     </Drawer.Navigator>
+//   );
+// };
+
 // import messaging from '@react-native-firebase/messaging';
 //   import {PermissionsAndroid} from 'react-native';
 //   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -86,10 +104,14 @@ const App = () => {
       <NavigationContainer>
       {/* <parentStack.Navigator initialRouteName={currentUser ? 'TabNavigator' : 'Login'} screenOptions={{ headerShown: false }}> */}
         <parentStack.Navigator initialRouteName='TabNavigator' screenOptions={{ headerShown: false }}>
-          {/* <parentStack.Screen name="DrawerNavigator" component={DrawerNavigator} /> */}
+        {/* <parentStack.Navigator initialRouteName='DrawerNavigator' screenOptions={{ headerShown: false }}>
+          <parentStack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+          <parentStack.Screen name="Login" component={Login} />
+          <parentStack.Screen name="Signup" component={Signup} /> */}
           <parentStack.Screen name="TabNavigator" component={TabNavigator} />
           <parentStack.Screen name="EducationalContent" component={EducationalContent} />
           <parentStack.Screen name="HireTalent" component={HireTalent} />
+          <parentStack.Screen name="MyProfile" component={MyProfile} />
           <parentStack.Screen name="Discussion" component={Discussion} />
           <parentStack.Screen name="Blogs" component={Blogs} />
           <parentStack.Screen name="IdeaSubmission" component={IdeaSubmission} />

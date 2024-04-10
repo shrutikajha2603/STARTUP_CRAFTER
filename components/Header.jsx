@@ -50,7 +50,7 @@ export default function Header({ home, title }) {
               <Ionicons name="notifications" size={23} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={GlobalStyles.userIcon} onPress={signOut}>
+          <TouchableOpacity style={GlobalStyles.userIcon} onPress={() => { navigation.push('MyProfile'); }}>
             <Image
               source={require('../assets/userIcon.png')}
               style={{ width: 30, height: 30, borderRadius: 30, resizeMode: 'contain' }}

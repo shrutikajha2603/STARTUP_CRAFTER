@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import EventCalendar from './screens/EventCalendar';
+import CalendarIIC from './screens/CalendarIIC';
 import Discussion from './screens/Discussion'
 import Home from './screens/Home';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -67,7 +67,7 @@ const myScreenOptions = ({ route }) => ({
 return (
   <Tab.Navigator initialRouteName='Home' screenOptions={myScreenOptions}>         
     <Tab.Screen name="Home" component={Home} />
-    <Tab.Screen name="Calendar" component={EventCalendar} />
+    <Tab.Screen name="Calendar" component={CalendarIIC} />
     <Tab.Screen name="HireTalent" component={HireTalent} />
 </Tab.Navigator>
 );

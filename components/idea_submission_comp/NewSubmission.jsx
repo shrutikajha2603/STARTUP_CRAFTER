@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { FlatList, TextInput } from 'react-native-gesture-handler'
+import { User, onAuthStateChanged } from 'firebase/auth'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { RadioButton,  } from 'react-native-paper';
 import * as DocumentPicker from 'expo-document-picker';
@@ -8,7 +9,7 @@ import { ScrollView, TouchableOpacity, Alert } from 'react-native'
 import ideaSubmissionStyle from './ideaSubmissionStyle';
 // import * as ImagePicker from 'expo-image-picker'
 import Toast from 'react-native-toast-message'
-import { storage } from '../../FirebaseConfig'; // Import the initialized Firebase storage instance
+import { FIREBASE_AUTH, storage, FIREBASE_DB } from '../../FirebaseConfig'; // Import the initialized Firebase storage instance
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 
@@ -25,6 +26,36 @@ export default function NewSubmission () {
     }
   };
   const [otherCategory, setOtherCategory] = useState('')
+  const [currentUserEmail, setCurrentUserEmail] = useState(null)
+useEffect(() => {
+  onAuthStateChanged(FIREBASE_AUTH, (user) => {
+    setCurrentUserEmail(user.email)
+    // console.log('heyUser Email:',  user.email)
+  })
+
+}, [])
+
+const handleSubmit = () => {
+  if (teamName && ideaDescription && categoryChecked) {
+    // Push data to Firebase
+    FIREBASE_DB.ref('submissions').push({
+      teamName: teamName,
+      ideaDescription: ideaDescription,
+      categoryChecked: categoryChecked
+    }).then(() => {
+      // Clear input fields after successful submission
+      setTeamName('');
+      setIdeaDescription('');
+      setCategoryChecked('');
+      Alert.alert('Submission successful!');
+    }).catch((error) => {
+      console.error('Error submitting data to Firebase:', error);
+      Alert.alert('An error occurred while submitting the data.');
+    });
+  } else {
+    Alert.alert('Please fill in all fields.');
+  }
+};
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -134,13 +165,13 @@ export default function NewSubmission () {
         </View>
         
         <TouchableOpacity>
-          <SubmitButton onDocumentPicked={setDocumentData} documentFile={documentData} setFileUploaded={setFileUploaded} />
+          <SubmitButton onDocumentPicked={setDocumentData} documentFile={documentData} setFileUploaded={setFileUploaded} currentUserEmail={currentUserEmail} teamName={teamName} categoryChecked={categoryChecked} ideaDescription={ideaDescription} />
         </TouchableOpacity>
       
       </View>
     )
   }
-  const SubmitButton = ({ onDocumentPicked, documentFile, setFileUploaded }) => {
+  const SubmitButton = ({ onDocumentPicked, documentFile, setFileUploaded, currentUserEmail, teamName, categoryChecked, ideaDescription }) => {
     const [progress, setProgress] = useState('')
     const uploadDocument = async () => {
       try {
@@ -152,7 +183,7 @@ export default function NewSubmission () {
         // const response = await fetch(documentFile.uri)
         // const blob = await response.blob()
         
-        const storageRef = ref(storage, `IdeaDoc/${documentFile.assets[0].name}`);
+        const storageRef = ref(storage, `IdeaDoc/${currentUserEmail}/${documentFile.assets[0].name}`);
         // const metadata = {
         //   contentType: ['application/pdf', 'application/pptx', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ] // Specify MIME type here
         // };
@@ -186,6 +217,28 @@ export default function NewSubmission () {
         console.error('Error uploading document:', error);
         Alert.alert('An error occurred while uploading the document.');
       }
+
+      // {
+      //   if (teamName && ideaDescription && categoryChecked) {
+      //     // Push data to Firebase
+      //     FIREBASE_DB.ref('submissions').push({
+      //       teamName: teamName,
+      //       ideaDescription: ideaDescription,
+      //       categoryChecked: categoryChecked
+      //     }).then(() => {
+      //       // Clear input fields after successful submission
+      //       setTeamName('');
+      //       setIdeaDescription('');
+      //       setCategoryChecked('');
+      //       Alert.alert('Submission successful!');
+      //     }).catch((error) => {
+      //       console.error('Error submitting data to Firebase:', error);
+      //       Alert.alert('An error occurred while submitting the data.');
+      //     });
+      //   } else {
+      //     Alert.alert('Please fill in all fields.');
+      //   }
+      // };
     };
   
     const showToast = () => {
