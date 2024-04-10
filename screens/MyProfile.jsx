@@ -10,7 +10,6 @@ export default function MyProfile() {
   const navigation = useNavigation();
 
   const [currentUser, setCurrentUser] = useState(null);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
       if (user) {

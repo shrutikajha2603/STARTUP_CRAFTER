@@ -11,6 +11,7 @@ import ideaSubmissionStyle from './ideaSubmissionStyle';
 import Toast from 'react-native-toast-message'
 import { FIREBASE_AUTH, storage, FIREBASE_DB } from '../../FirebaseConfig'; // Import the initialized Firebase storage instance
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import SubmitButton from './SubmitButton';
 
 
 export default function NewSubmission () {
@@ -26,50 +27,55 @@ export default function NewSubmission () {
     }
   };
   const [otherCategory, setOtherCategory] = useState('')
-  const [currentUserEmail, setCurrentUserEmail] = useState(null)
-useEffect(() => {
-  onAuthStateChanged(FIREBASE_AUTH, (user) => {
-    setCurrentUserEmail(user.email)
-    // console.log('heyUser Email:',  user.email)
-  })
-
-}, [])
-
-const handleSubmit = () => {
-  if (teamName && ideaDescription && categoryChecked) {
-    // Push data to Firebase
-    FIREBASE_DB.ref('submissions').push({
-      teamName: teamName,
-      ideaDescription: ideaDescription,
-      categoryChecked: categoryChecked
-    }).then(() => {
-      // Clear input fields after successful submission
-      setTeamName('');
-      setIdeaDescription('');
-      setCategoryChecked('');
-      Alert.alert('Submission successful!');
-    }).catch((error) => {
-      console.error('Error submitting data to Firebase:', error);
-      Alert.alert('An error occurred while submitting the data.');
+  const [currentUser, setCurrentUser] = useState(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      if (user) {
+        setCurrentUser(user);
+        console.log(user.email);
+      } else {
+        setCurrentUser(null);
+      }
     });
-  } else {
-    Alert.alert('Please fill in all fields.');
-  }
-};
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      aspect:[3,4],
-      allowsEditing: true,
-      quality: 1
-    })
-    if (!result.canceled && result !== null){
-          setDocumentData(result)
-          console.log(result)
-          console.log(result.assets[0].name)
-    }
-  }
+    return () => unsubscribe();
+  }, []);
+
+// const handleSubmit = () => {
+//   if (teamName && ideaDescription && categoryChecked) {
+//     // Push data to Firebase
+//     FIREBASE_DB.ref('submissions').push({
+//       teamName: teamName,
+//       ideaDescription: ideaDescription,
+//       categoryChecked: categoryChecked
+//     }).then(() => {
+//       // Clear input fields after successful submission
+//       setTeamName('');
+//       setIdeaDescription('');
+//       setCategoryChecked('');
+//       Alert.alert('Submission successful!');
+//     }).catch((error) => {
+//       console.error('Error submitting data to Firebase:', error);
+//       Alert.alert('An error occurred while submitting the data.');
+//     });
+//   } else {
+//     Alert.alert('Please fill in all fields.');
+//   }
+// };
+
+  // const pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     aspect:[3,4],
+  //     allowsEditing: true,
+  //     quality: 1
+  //   })
+  //   if (!result.canceled && result !== null){
+  //         setDocumentData(result)
+  //         console.log(result)
+  //         console.log(result.assets[0].name)
+  //   }
+  // }
     const pickDocument = async () => {  
   
       try {
@@ -97,9 +103,6 @@ const handleSubmit = () => {
         return false;
       }
     };
-    
-    // console.log(allFieldsCheck());
-
     return(
       <View style={{marginVertical:20}} >
         <Text style={ideaSubmissionStyle.questionText}>What  is your team’s name?</Text>
@@ -165,100 +168,101 @@ const handleSubmit = () => {
         </View>
         
         <TouchableOpacity>
-          <SubmitButton onDocumentPicked={setDocumentData} documentFile={documentData} setFileUploaded={setFileUploaded} currentUserEmail={currentUserEmail} teamName={teamName} categoryChecked={categoryChecked} ideaDescription={ideaDescription} />
+          <SubmitButton onDocumentPicked={setDocumentData} documentFile={documentData} setFileUploaded={setFileUploaded} currentUserEmail={currentUser ? currentUser.email : 'Loading...'} userName={currentUser ? currentUser.displayName : 'Loading...'} teamName={teamName} categoryChecked={categoryChecked} ideaDescription={ideaDescription} />
         </TouchableOpacity>
       
       </View>
     )
   }
-  const SubmitButton = ({ onDocumentPicked, documentFile, setFileUploaded, currentUserEmail, teamName, categoryChecked, ideaDescription }) => {
-    const [progress, setProgress] = useState('')
-    const uploadDocument = async () => {
-      try {
-        if (!documentFile) {
-          Alert.alert('Please select a document before submitting.');
-          return;
-        }    
-        // Convert the file to a Blob object
-        // const response = await fetch(documentFile.uri)
-        // const blob = await response.blob()
-        
-        const storageRef = ref(storage, `IdeaDoc/${currentUserEmail}/${documentFile.assets[0].name}`);
-        // const metadata = {
-        //   contentType: ['application/pdf', 'application/pptx', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ] // Specify MIME type here
-        // };
-    
-        const uploadTask = uploadBytesResumable(storageRef, documentFile.uri,
-          //  metadata
-          );    
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            const newProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setProgress(newProgress);
-          },
-          (error) => {
-            console.error('Error uploading document:', error);
-            Alert.alert('An error occurred while uploading the document.');
-          },
-          async () => {
-            // Handle successful uploads on complete
-            console.log('Document uploaded successfully');
-            Alert.alert('Document uploaded successfully.');
-   
-            setFileUploaded(true);
-    
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log('file present at: ', downloadURL);
-            onDocumentPicked(documentFile.name);
-          }
-        );
-      } catch (error) {
-        console.error('Error uploading document:', error);
-        Alert.alert('An error occurred while uploading the document.');
-      }
 
-      // {
-      //   if (teamName && ideaDescription && categoryChecked) {
-      //     // Push data to Firebase
-      //     FIREBASE_DB.ref('submissions').push({
-      //       teamName: teamName,
-      //       ideaDescription: ideaDescription,
-      //       categoryChecked: categoryChecked
-      //     }).then(() => {
-      //       // Clear input fields after successful submission
-      //       setTeamName('');
-      //       setIdeaDescription('');
-      //       setCategoryChecked('');
-      //       Alert.alert('Submission successful!');
-      //     }).catch((error) => {
-      //       console.error('Error submitting data to Firebase:', error);
-      //       Alert.alert('An error occurred while submitting the data.');
-      //     });
-      //   } else {
-      //     Alert.alert('Please fill in all fields.');
-      //   }
-      // };
-    };
+
+  //   const [progress, setProgress] = useState('')
+  //   const uploadDocument = async () => {
+  //     try {
+  //       if (!documentFile) {
+  //         Alert.alert('Please select a document before submitting.');
+  //         return;
+  //       }    
+  //       // Convert the file to a Blob object
+  //       // const response = await fetch(documentFile.uri)
+  //       // const blob = await response.blob()
+        
+  //       const storageRef = ref(storage, `IdeaDoc/${currentUserEmail}/${documentFile.assets[0].name}`);
+  //       // const metadata = {
+  //       //   contentType: ['application/pdf', 'application/pptx', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ] // Specify MIME type here
+  //       // };
+    
+  //       const uploadTask = uploadBytesResumable(storageRef, documentFile.uri,
+  //         //  metadata
+  //         );    
+  //       uploadTask.on(
+  //         'state_changed',
+  //         (snapshot) => {
+  //           const newProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //           setProgress(newProgress);
+  //         },
+  //         (error) => {
+  //           console.error('Error uploading document:', error);
+  //           Alert.alert('An error occurred while uploading the document.');
+  //         },
+  //         async () => {
+  //           // Handle successful uploads on complete
+  //           console.log('Document uploaded successfully');
+  //           Alert.alert('Document uploaded successfully.');
+   
+  //           setFileUploaded(true);
+    
+  //           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //           console.log('file present at: ', downloadURL);
+  //           onDocumentPicked(documentFile.name);
+  //         }
+  //       );
+  //     } catch (error) {
+  //       console.error('Error uploading document:', error);
+  //       Alert.alert('An error occurred while uploading the document.');
+  //     }
+
+  //     // {
+  //     //   if (teamName && ideaDescription && categoryChecked) {
+  //     //     // Push data to Firebase
+  //     //     FIREBASE_DB.ref('submissions').push({
+  //     //       teamName: teamName,
+  //     //       ideaDescription: ideaDescription,
+  //     //       categoryChecked: categoryChecked
+  //     //     }).then(() => {
+  //     //       // Clear input fields after successful submission
+  //     //       setTeamName('');
+  //     //       setIdeaDescription('');
+  //     //       setCategoryChecked('');
+  //     //       Alert.alert('Submission successful!');
+  //     //     }).catch((error) => {
+  //     //       console.error('Error submitting data to Firebase:', error);
+  //     //       Alert.alert('An error occurred while submitting the data.');
+  //     //     });
+  //     //   } else {
+  //     //     Alert.alert('Please fill in all fields.');
+  //     //   }
+  //     // };
+  //   };
   
-    const showToast = () => {
-      Toast.show({
-        type: 'info',
-        text1: 'Message',
-        text2: 'This is an info message'
-      });
-    }
-    return (<>
-      <TouchableOpacity onPress={uploadDocument}>
-        <View style={{ width: '90%', backgroundColor: '#263E65', height: 50, borderRadius: 28, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, elevation: 5 }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>Submit</Text>
-        </View>
-      </TouchableOpacity>
-      {/* <TouchableOpacity onPress={showToast}>
-        <View style={{ width: '90%', backgroundColor: 'white', height: 50, borderRadius: 28, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, elevation: 5 }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>toast</Text>
-      </View>
-      </TouchableOpacity> */}
-      </>
-    );
-  };
+  //   const showToast = () => {
+  //     Toast.show({
+  //       type: 'info',
+  //       text1: 'Message',
+  //       text2: 'This is an info message'
+  //     });
+  //   }
+  //   return (<>
+  //     <TouchableOpacity onPress={uploadDocument}>
+  //       <View style={{ width: '90%', backgroundColor: '#263E65', height: 50, borderRadius: 28, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, elevation: 5 }}>
+  //         <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'white' }}>Submit</Text>
+  //       </View>
+  //     </TouchableOpacity>
+  //     {/* <TouchableOpacity onPress={showToast}>
+  //       <View style={{ width: '90%', backgroundColor: 'white', height: 50, borderRadius: 28, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 30, elevation: 5 }}>
+  //       <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>toast</Text>
+  //     </View>
+  //     </TouchableOpacity> */}
+  //     </>
+  //   );
+  // };
